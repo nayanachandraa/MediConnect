@@ -1,0 +1,2457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MediConnect — Advanced Health Systems</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<style>
+:root {
+  --primary: #004253;
+  --primary-light: #005b71;
+  --secondary: #28695c;
+  --secondary-container: #acecdc;
+  --on-secondary-container: #2d6d60;
+  --surface: #fcf9f8;
+  --surface-low: #f6f3f2;
+  --surface-container: #f0eded;
+  --surface-high: #eae7e7;
+  --surface-highest: #e5e2e1;
+  --surface-lowest: #ffffff;
+  --on-surface: #1b1c1c;
+  --on-surface-variant: #40484c;
+  --outline: #70787d;
+  --outline-variant: #bfc8cc;
+  --error: #ba1a1a;
+  --error-container: #ffdad6;
+  --sos: #d32f2f;
+  --sos-light: #ff5252;
+  --font-headline: 'Manrope', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --radius-sm: 0.5rem;
+  --radius: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--surface);color:var(--on-surface);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle;user-select:none}
+
+/* BUTTONS */
+.btn-primary{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 100%);color:#fff;border:none;padding:.8rem 2rem;border-radius:var(--radius-lg);font-family:var(--font-body);font-size:.95rem;font-weight:600;cursor:pointer;transition:opacity .2s,transform .15s;display:inline-flex;align-items:center;gap:.5rem}
+.btn-primary:hover{opacity:.88}.btn-primary:active{transform:scale(.97)}
+.btn-secondary{background:var(--surface-low);color:var(--primary);border:none;padding:.8rem 2rem;border-radius:var(--radius-lg);font-family:var(--font-body);font-size:.95rem;font-weight:600;cursor:pointer;transition:background .2s,transform .15s;display:inline-flex;align-items:center;gap:.5rem}
+.btn-secondary:hover{background:var(--surface-high)}.btn-secondary:active{transform:scale(.97)}
+.btn-ghost{background:none;border:none;cursor:pointer;color:var(--on-surface-variant);padding:.5rem;border-radius:50%;transition:background .2s;display:flex;align-items:center;justify-content:center}
+.btn-ghost:hover{background:var(--surface-container)}
+.btn-danger{background:linear-gradient(135deg,var(--sos) 0%,var(--sos-light) 100%);color:#fff;border:none;padding:.8rem 2rem;border-radius:var(--radius-lg);font-family:var(--font-body);font-size:.95rem;font-weight:700;cursor:pointer;transition:opacity .2s,transform .15s;display:inline-flex;align-items:center;gap:.5rem}
+.btn-danger:hover{opacity:.88}
+
+/* HEADER */
+header{display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;position:sticky;top:0;background:rgba(252,249,248,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);z-index:100;border-bottom:1px solid var(--outline-variant)}
+.logo{font-family:var(--font-headline);font-size:1.5rem;font-weight:800;color:var(--primary);letter-spacing:-.03em;text-decoration:none;cursor:pointer}
+nav{display:flex;align-items:center;gap:.25rem}
+nav a{text-decoration:none;font-weight:500;font-size:.9rem;padding:.5rem .9rem;border-radius:var(--radius);transition:background .2s,color .2s;color:var(--on-surface-variant);position:relative;cursor:pointer}
+nav a:hover{background:var(--surface-container);color:var(--primary)}
+nav a.active{color:var(--primary);font-weight:700;background:var(--surface-container)}
+nav a.active::after{content:'';position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:18px;height:2px;border-radius:2px;background:var(--primary)}
+.header-right{display:flex;align-items:center;gap:.5rem}
+.avatar-btn{width:38px;height:38px;border-radius:50%;overflow:hidden;border:2px solid var(--outline-variant);cursor:pointer;transition:border-color .2s;display:flex;align-items:center;justify-content:center;background:var(--secondary-container);font-weight:700;color:var(--primary);font-size:.9rem}
+.avatar-btn:hover{border-color:var(--primary)}
+.notif-wrap{position:relative}
+.notif-badge{position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;background:var(--error);border:2px solid var(--surface)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:.5rem;border:none;background:none}
+.hamburger span{display:block;width:22px;height:2px;background:var(--primary);border-radius:2px;transition:transform .3s,opacity .3s}
+.mobile-nav{display:none;flex-direction:column;gap:.25rem;padding:1rem 1.5rem;background:var(--surface-lowest);border-bottom:1px solid var(--outline-variant);position:sticky;top:69px;z-index:99}
+.mobile-nav a{text-decoration:none;font-weight:500;color:var(--on-surface-variant);padding:.75rem 1rem;border-radius:var(--radius);transition:background .2s,color .2s;cursor:pointer}
+.mobile-nav a:hover,.mobile-nav a.active{background:var(--surface-container);color:var(--primary)}
+
+/* PAGE VIEWS */
+.page-view{display:none}.page-view.active{display:block}
+
+/* MAIN / HERO */
+main{position:relative}
+.hero{min-height:87vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4rem 1.5rem 5rem;overflow:hidden;position:relative;text-align:center}
+.hero-blob-1{position:absolute;top:-10%;left:-5%;width:40%;height:60%;background:rgba(172,236,220,.22);border-radius:50%;filter:blur(120px);pointer-events:none}
+.hero-blob-2{position:absolute;bottom:-10%;right:-5%;width:40%;height:60%;background:rgba(0,91,113,.09);border-radius:50%;filter:blur(120px);pointer-events:none}
+.badge-chip{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem 1rem;border-radius:9999px;background:var(--secondary-container);color:var(--on-secondary-container);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.5rem}
+.hero h1{font-family:var(--font-headline);font-size:clamp(2.5rem,7vw,4.5rem);font-weight:800;color:var(--primary);letter-spacing:-.04em;line-height:1.1;margin-bottom:1.25rem}
+.hero h1 span{background:linear-gradient(135deg,var(--primary) 0%,var(--secondary) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{max-width:600px;margin:0 auto 3rem;color:var(--on-surface-variant);font-size:1.1rem;line-height:1.7}
+.portal-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;max-width:900px;width:100%;text-align:left}
+.portal-card{background:var(--surface-lowest);border-radius:var(--radius-2xl);padding:2rem;transition:transform .3s,box-shadow .3s;border:1px solid transparent;position:relative;overflow:hidden}
+.portal-card:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(0,66,83,.1);border-color:var(--outline-variant)}
+.portal-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;font-size:1.6rem}
+.portal-icon.patient{background:var(--secondary-container);color:var(--on-secondary-container)}
+.portal-icon.doctor{background:#b7eaff;color:var(--primary)}
+.portal-card h2{font-family:var(--font-headline);font-size:1.4rem;font-weight:700;color:var(--primary);margin-bottom:.6rem}
+.portal-card p{color:var(--on-surface-variant);font-size:.9rem;line-height:1.6;margin-bottom:1.5rem}
+.portal-actions{display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.portal-actions .btn-primary,.portal-actions .btn-secondary{font-size:.87rem;padding:.65rem 1.5rem}
+
+/* STATS */
+.stats-section{background:var(--surface-low);padding:5rem 2rem}
+.stats-grid{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;text-align:center}
+.stat-num{font-family:var(--font-headline);font-size:2.5rem;font-weight:800;color:var(--primary);margin-bottom:.4rem}
+.stat-label{font-size:.75rem;font-weight:700;color:var(--on-surface-variant);letter-spacing:.1em;text-transform:uppercase}
+
+/* FEATURE */
+.feature-section{padding:6rem 2rem;overflow:hidden}
+.feature-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;gap:4rem}
+.feature-img-wrap{flex:1;position:relative}
+.feature-img-wrap>div:first-child{border-radius:3rem;overflow:hidden;aspect-ratio:1;background:linear-gradient(135deg,var(--secondary-container),#b7eaff);display:flex;align-items:center;justify-content:center}
+.feature-img-wrap>div:first-child .material-symbols-outlined{font-size:8rem;color:var(--primary);opacity:.3}
+.glass-card{position:absolute;bottom:-2rem;right:-2rem;width:240px;background:rgba(255,255,255,.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:1.5rem;padding:1.25rem;box-shadow:0 8px 32px rgba(0,66,83,.12);border:1px solid rgba(255,255,255,.6)}
+.glass-card-title{display:flex;align-items:center;gap:.5rem;font-family:var(--font-headline);font-weight:700;color:var(--primary);margin-bottom:.5rem;font-size:.95rem}
+.glass-card p{font-size:.8rem;color:var(--on-surface-variant);line-height:1.5}
+.feature-content{flex:1}
+.feature-eyebrow{color:var(--secondary);font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem;display:block}
+.feature-content h2{font-family:var(--font-headline);font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;color:var(--primary);line-height:1.2;margin-bottom:1.25rem;letter-spacing:-.03em}
+.feature-content>p{color:var(--on-surface-variant);line-height:1.7;margin-bottom:2rem}
+.feature-list{list-style:none;display:flex;flex-direction:column;gap:.9rem}
+.feature-list li{display:flex;align-items:center;gap:.9rem;font-weight:500;color:var(--primary)}
+.feature-list li::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--secondary);flex-shrink:0}
+
+/* SERVICES */
+.services-section{padding:6rem 2rem;background:var(--surface-low)}
+.section-header{text-align:center;max-width:600px;margin:0 auto 3.5rem}
+.section-header h2{font-family:var(--font-headline);font-size:clamp(1.8rem,3.5vw,2.5rem);font-weight:800;color:var(--primary);margin-bottom:.75rem;letter-spacing:-.03em}
+.section-header p{color:var(--on-surface-variant);line-height:1.7}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;max-width:960px;margin:0 auto}
+.service-card{background:var(--surface-lowest);border-radius:var(--radius-xl);padding:1.75rem;border:1px solid var(--outline-variant);cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .2s}
+.service-card:hover{border-color:var(--primary);box-shadow:0 8px 24px rgba(0,66,83,.08);transform:translateY(-3px)}
+.service-icon{width:44px;height:44px;border-radius:12px;background:var(--surface-container);color:var(--primary);display:flex;align-items:center;justify-content:center;margin-bottom:1rem}
+.service-card h3{font-family:var(--font-headline);font-size:1rem;font-weight:700;color:var(--primary);margin-bottom:.4rem}
+.service-card p{font-size:.85rem;color:var(--on-surface-variant);line-height:1.5}
+
+/* CLINICS */
+.clinics-section{padding:6rem 2rem}
+.clinics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;max-width:960px;margin:0 auto}
+.clinic-card{background:var(--surface-lowest);border-radius:var(--radius-xl);overflow:hidden;border:1px solid var(--outline-variant);transition:box-shadow .2s,transform .2s}
+.clinic-card:hover{box-shadow:0 12px 32px rgba(0,66,83,.1);transform:translateY(-3px)}
+.clinic-img-placeholder{width:100%;height:140px;background:linear-gradient(135deg,var(--secondary-container),#b7eaff);display:flex;align-items:center;justify-content:center}
+.clinic-img-placeholder .material-symbols-outlined{font-size:3rem;color:var(--primary);opacity:.4}
+.clinic-info{padding:1.25rem}
+.clinic-info h3{font-family:var(--font-headline);font-weight:700;color:var(--primary);margin-bottom:.3rem;font-size:.98rem}
+.clinic-meta{display:flex;align-items:center;gap:.35rem;font-size:.82rem;color:var(--on-surface-variant);margin-bottom:.8rem}
+.clinic-meta .material-symbols-outlined{font-size:1rem}
+.clinic-tag{display:inline-block;padding:.2rem .6rem;border-radius:9999px;background:var(--secondary-container);color:var(--on-secondary-container);font-size:.72rem;font-weight:600;margin-right:.35rem;margin-bottom:.35rem}
+.clinic-book-btn{margin-top:.9rem;width:100%;padding:.6rem;font-size:.85rem}
+
+/* FOOTER */
+footer{background:var(--surface-lowest);padding:4rem 2rem 2rem;border-top:1px solid var(--outline-variant)}
+.footer-inner{max-width:960px;margin:0 auto;display:grid;grid-template-columns:1.5fr repeat(3,1fr);gap:2rem}
+.footer-brand .logo{display:block;margin-bottom:1rem}
+.footer-brand p{font-size:.85rem;color:var(--on-surface-variant);line-height:1.6}
+.footer-col h4{font-family:var(--font-headline);font-weight:700;font-size:.87rem;color:var(--primary);margin-bottom:1rem}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.footer-col a{font-size:.87rem;color:var(--on-surface-variant);text-decoration:none;transition:color .2s}
+.footer-col a:hover{color:var(--primary)}
+.footer-bottom{max-width:960px;margin:2.5rem auto 0;padding-top:1.5rem;border-top:1px solid var(--outline-variant);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;font-size:.78rem;color:var(--on-surface-variant);letter-spacing:.06em;text-transform:uppercase}
+.footer-socials{display:flex;gap:1.5rem}
+.footer-socials a{text-decoration:none;color:var(--on-surface-variant);transition:color .2s}
+.footer-socials a:hover{color:var(--primary)}
+
+/* MODALS */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--surface-lowest);border-radius:var(--radius-2xl);padding:2.25rem;width:100%;max-width:440px;position:relative;transform:scale(.94) translateY(12px);transition:transform .28s cubic-bezier(.34,1.56,.64,1);box-shadow:0 24px 60px rgba(0,0,0,.18);max-height:90vh;overflow-y:auto}
+.modal-overlay.open .modal{transform:scale(1) translateY(0)}
+.modal-close{position:absolute;top:1.1rem;right:1.1rem;background:var(--surface-container);border:none;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--on-surface-variant);transition:background .2s}
+.modal-close:hover{background:var(--surface-high)}
+.modal-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem}
+.modal-icon.patient{background:var(--secondary-container);color:var(--on-secondary-container)}
+.modal-icon.doctor{background:#b7eaff;color:var(--primary)}
+.modal-icon.sos{background:var(--error-container);color:var(--sos)}
+.modal h2{font-family:var(--font-headline);font-size:1.5rem;font-weight:700;color:var(--primary);margin-bottom:.3rem}
+.modal .modal-sub{color:var(--on-surface-variant);font-size:.9rem;margin-bottom:1.75rem}
+.tab-row{display:flex;background:var(--surface-container);border-radius:var(--radius);padding:3px;margin-bottom:1.5rem;gap:3px}
+.tab-btn{flex:1;background:none;border:none;padding:.55rem;border-radius:calc(var(--radius) - 2px);font-family:var(--font-body);font-size:.88rem;font-weight:600;color:var(--on-surface-variant);cursor:pointer;transition:background .2s,color .2s}
+.tab-btn.active{background:var(--surface-lowest);color:var(--primary);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.form-group{margin-bottom:1.1rem}
+.form-group label{display:block;font-size:.82rem;font-weight:600;color:var(--primary);margin-bottom:.4rem;letter-spacing:.02em}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:.72rem .95rem;border:1.5px solid var(--outline-variant);border-radius:var(--radius-lg);font-family:var(--font-body);font-size:.9rem;color:var(--on-surface);background:var(--surface);outline:none;transition:border-color .2s}
+.form-group textarea{resize:vertical;min-height:80px}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--primary)}
+.form-group input::placeholder{color:var(--outline)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.form-footer{display:flex;flex-direction:column;gap:.75rem;margin-top:1.5rem}
+.form-footer .btn-primary,.form-footer .btn-secondary{width:100%;justify-content:center;font-size:.95rem;padding:.85rem}
+.form-divider{display:flex;align-items:center;gap:.75rem;color:var(--outline);font-size:.78rem;margin:.25rem 0}
+.form-divider::before,.form-divider::after{content:'';flex:1;height:1px;background:var(--outline-variant)}
+.forgot-link{text-align:right;font-size:.8rem}
+.forgot-link a{color:var(--secondary);text-decoration:none;font-weight:600}
+.forgot-link a:hover{text-decoration:underline}
+.error-msg{font-size:.8rem;color:var(--error);margin-top:.3rem;display:none}
+
+/* NOTIFICATION DROPDOWN */
+.notif-dropdown{position:absolute;top:calc(100% + 8px);right:0;width:320px;background:var(--surface-lowest);border-radius:var(--radius-xl);box-shadow:0 12px 40px rgba(0,0,0,.14);border:1px solid var(--outline-variant);z-index:200;opacity:0;pointer-events:none;transform:translateY(-6px);transition:opacity .2s,transform .2s}
+.notif-dropdown.open{opacity:1;pointer-events:all;transform:translateY(0)}
+.notif-header{display:flex;justify-content:space-between;align-items:center;padding:1rem 1.25rem .75rem;border-bottom:1px solid var(--outline-variant)}
+.notif-header span{font-family:var(--font-headline);font-weight:700;font-size:.95rem;color:var(--primary)}
+.notif-header button{font-size:.75rem;color:var(--secondary);background:none;border:none;cursor:pointer;font-weight:600}
+.notif-item{display:flex;gap:.9rem;padding:.9rem 1.25rem;border-bottom:1px solid var(--outline-variant);cursor:pointer;transition:background .15s}
+.notif-item:last-child{border-bottom:none}
+.notif-item:hover{background:var(--surface-container)}
+.notif-dot{width:8px;height:8px;border-radius:50%;background:var(--secondary);margin-top:5px;flex-shrink:0}
+.notif-dot.read{background:var(--outline-variant)}
+.notif-text{font-size:.83rem;color:var(--on-surface);line-height:1.4}
+.notif-time{font-size:.74rem;color:var(--outline);margin-top:.2rem}
+
+/* PROFILE DROPDOWN */
+.profile-dropdown{position:absolute;top:calc(100% + 8px);right:0;width:220px;background:var(--surface-lowest);border-radius:var(--radius-xl);box-shadow:0 12px 40px rgba(0,0,0,.14);border:1px solid var(--outline-variant);z-index:200;overflow:hidden;opacity:0;pointer-events:none;transform:translateY(-6px);transition:opacity .2s,transform .2s}
+.profile-dropdown.open{opacity:1;pointer-events:all;transform:translateY(0)}
+.profile-info{padding:1rem 1.1rem;border-bottom:1px solid var(--outline-variant)}
+.profile-name{font-weight:700;font-size:.9rem;color:var(--primary)}
+.profile-email{font-size:.78rem;color:var(--on-surface-variant)}
+.profile-menu-item{display:flex;align-items:center;gap:.7rem;padding:.75rem 1.1rem;font-size:.87rem;color:var(--on-surface);cursor:pointer;transition:background .15s;border:none;background:none;width:100%;text-align:left}
+.profile-menu-item:hover{background:var(--surface-container)}
+.profile-menu-item .material-symbols-outlined{font-size:1.1rem;color:var(--on-surface-variant)}
+.profile-menu-item.danger{color:var(--error)}
+.profile-menu-item.danger .material-symbols-outlined{color:var(--error)}
+
+/* HELP PANEL */
+.help-panel{position:fixed;bottom:5.5rem;right:1.5rem;width:320px;background:var(--surface-lowest);border-radius:var(--radius-xl);box-shadow:0 12px 40px rgba(0,0,0,.16);border:1px solid var(--outline-variant);z-index:200;opacity:0;pointer-events:none;transform:translateY(12px);transition:opacity .25s,transform .25s}
+.help-panel.open{opacity:1;pointer-events:all;transform:translateY(0)}
+.help-header{display:flex;justify-content:space-between;align-items:center;padding:1rem 1.25rem;border-bottom:1px solid var(--outline-variant);background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 100%);border-radius:var(--radius-xl) var(--radius-xl) 0 0}
+.help-header span{font-family:var(--font-headline);font-weight:700;color:#fff}
+.help-header button{background:rgba(255,255,255,.2);border:none;border-radius:50%;width:28px;height:28px;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.help-body{padding:1.1rem 1.25rem}
+.help-item{display:flex;align-items:flex-start;gap:.8rem;padding:.75rem 0;border-bottom:1px solid var(--outline-variant);cursor:pointer}
+.help-item:last-child{border-bottom:none}
+.help-icon{width:34px;height:34px;border-radius:10px;background:var(--surface-container);color:var(--primary);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.help-icon .material-symbols-outlined{font-size:1.1rem}
+.help-item-text strong{display:block;font-size:.85rem;font-weight:600;color:var(--primary)}
+.help-item-text span{font-size:.78rem;color:var(--on-surface-variant)}
+
+/* TOAST */
+.toast-container{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:400;display:flex;flex-direction:column;gap:.5rem;align-items:center;pointer-events:none}
+.toast{background:var(--on-surface);color:var(--surface);padding:.75rem 1.5rem;border-radius:9999px;font-size:.87rem;font-weight:500;box-shadow:0 8px 24px rgba(0,0,0,.2);pointer-events:none;opacity:0;transform:translateY(8px);transition:opacity .3s,transform .3s}
+.toast.show{opacity:1;transform:translateY(0)}
+
+/* BOOKING MODAL */
+.booking-steps{display:flex;gap:.5rem;margin-bottom:1.5rem}
+.step-dot{flex:1;height:4px;border-radius:9999px;background:var(--outline-variant);transition:background .3s}
+.step-dot.done{background:var(--secondary)}
+.step-dot.active{background:var(--primary)}
+
+/* SOS BUTTON */
+.sos-fab{position:fixed;bottom:1.5rem;right:1.5rem;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--sos),var(--sos-light));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.5rem;box-shadow:0 4px 20px rgba(211,47,47,.4);z-index:150;transition:transform .2s,box-shadow .2s;animation:sos-pulse 2s infinite}
+.sos-fab:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(211,47,47,.5)}
+@keyframes sos-pulse{0%,100%{box-shadow:0 4px 20px rgba(211,47,47,.4)}50%{box-shadow:0 4px 28px rgba(211,47,47,.7),0 0 0 8px rgba(211,47,47,.15)}}
+
+/* SOS MODAL */
+.sos-modal{max-width:400px}
+.sos-alert{background:var(--error-container);border-radius:var(--radius-lg);padding:1rem;margin-bottom:1.25rem;font-size:.85rem;color:var(--error);font-weight:500;display:flex;align-items:center;gap:.6rem}
+.sos-contacts{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.25rem}
+.sos-contact{display:flex;align-items:center;gap:.8rem;padding:.8rem;background:var(--surface-low);border-radius:var(--radius-lg);cursor:pointer;transition:background .15s}
+.sos-contact:hover{background:var(--surface-container)}
+.sos-contact-icon{width:36px;height:36px;border-radius:50%;background:var(--secondary-container);display:flex;align-items:center;justify-content:center;color:var(--primary);flex-shrink:0}
+.sos-contact-info strong{display:block;font-size:.88rem;font-weight:600;color:var(--primary)}
+.sos-contact-info span{font-size:.78rem;color:var(--on-surface-variant)}
+
+/* DASHBOARD */
+.dashboard{padding:2rem;max-width:1100px;margin:0 auto}
+.dash-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:2rem;flex-wrap:wrap;gap:1rem}
+.dash-title{font-family:var(--font-headline);font-size:1.8rem;font-weight:800;color:var(--primary)}
+.dash-sub{color:var(--on-surface-variant);font-size:.9rem;margin-top:.2rem}
+.dash-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-bottom:2rem}
+.dash-stat{background:var(--surface-lowest);border-radius:var(--radius-xl);padding:1.5rem;border:1px solid var(--outline-variant)}
+.dash-stat-num{font-family:var(--font-headline);font-size:2rem;font-weight:800;color:var(--primary);margin-bottom:.25rem}
+.dash-stat-label{font-size:.75rem;font-weight:600;color:var(--on-surface-variant);letter-spacing:.06em;text-transform:uppercase}
+.dash-stat-icon{width:40px;height:40px;border-radius:10px;background:var(--secondary-container);display:flex;align-items:center;justify-content:center;color:var(--primary);margin-bottom:.75rem}
+.dash-two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:2rem}
+.dash-card{background:var(--surface-lowest);border-radius:var(--radius-xl);padding:1.5rem;border:1px solid var(--outline-variant)}
+.dash-card-title{font-family:var(--font-headline);font-weight:700;font-size:1rem;color:var(--primary);margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between}
+.dash-card-title .btn-primary{font-size:.78rem;padding:.4rem 1rem}
+.record-item{display:flex;align-items:center;gap:.8rem;padding:.75rem 0;border-bottom:1px solid var(--outline-variant)}
+.record-item:last-child{border-bottom:none}
+.record-avatar{width:36px;height:36px;border-radius:50%;background:var(--secondary-container);display:flex;align-items:center;justify-content:center;color:var(--primary);font-weight:700;font-size:.85rem;flex-shrink:0}
+.record-info strong{display:block;font-size:.88rem;font-weight:600;color:var(--primary)}
+.record-info span{font-size:.78rem;color:var(--on-surface-variant)}
+.record-badge{margin-left:auto;font-size:.72rem;padding:.2rem .7rem;border-radius:9999px;font-weight:600}
+.badge-confirmed{background:#dcfce7;color:#166534}
+.badge-pending{background:#fef9c3;color:#854d0e}
+.badge-cancelled{background:var(--error-container);color:var(--sos)}
+.badge-active{background:#dbeafe;color:#1e40af}
+.empty-state{text-align:center;padding:2rem;color:var(--on-surface-variant);font-size:.9rem}
+.empty-state .material-symbols-outlined{font-size:3rem;display:block;margin-bottom:.5rem;opacity:.3}
+
+/* PROFILE VIEW */
+.profile-page{max-width:800px;margin:0 auto;padding:2rem}
+.profile-hero{background:linear-gradient(135deg,var(--primary),var(--primary-light));border-radius:var(--radius-2xl);padding:2rem;color:#fff;margin-bottom:2rem;display:flex;align-items:center;gap:1.5rem}
+.profile-avatar-lg{width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.2);border:3px solid rgba(255,255,255,.4);display:flex;align-items:center;justify-content:center;font-family:var(--font-headline);font-size:2rem;font-weight:800;flex-shrink:0}
+.profile-hero-info h2{font-family:var(--font-headline);font-size:1.5rem;font-weight:800;margin-bottom:.3rem}
+.profile-hero-info p{opacity:.8;font-size:.9rem}
+.profile-section{background:var(--surface-lowest);border-radius:var(--radius-xl);padding:1.5rem;border:1px solid var(--outline-variant);margin-bottom:1.25rem}
+.profile-section-title{font-family:var(--font-headline);font-weight:700;color:var(--primary);font-size:1rem;margin-bottom:1.25rem;display:flex;justify-content:space-between;align-items:center}
+.profile-field{display:flex;margin-bottom:.75rem}
+.profile-field-label{font-size:.82rem;font-weight:600;color:var(--on-surface-variant);width:140px;flex-shrink:0}
+.profile-field-value{font-size:.88rem;color:var(--on-surface)}
+
+/* APPOINTMENTS VIEW */
+.appointments-page{max-width:900px;margin:0 auto;padding:2rem}
+.appt-filters{display:flex;gap:.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.appt-filter-btn{background:var(--surface-container);border:none;padding:.5rem 1.1rem;border-radius:9999px;font-family:var(--font-body);font-size:.85rem;font-weight:600;cursor:pointer;color:var(--on-surface-variant);transition:background .2s,color .2s}
+.appt-filter-btn.active{background:var(--primary);color:#fff}
+.appt-card{background:var(--surface-lowest);border-radius:var(--radius-xl);padding:1.25rem;border:1px solid var(--outline-variant);margin-bottom:.75rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.appt-date{background:var(--secondary-container);border-radius:var(--radius-lg);padding:.75rem 1rem;text-align:center;min-width:64px;flex-shrink:0}
+.appt-date-day{font-family:var(--font-headline);font-size:1.5rem;font-weight:800;color:var(--primary);line-height:1}
+.appt-date-month{font-size:.7rem;font-weight:700;color:var(--secondary);text-transform:uppercase;letter-spacing:.08em}
+.appt-info{flex:1}
+.appt-info strong{display:block;font-family:var(--font-headline);font-weight:700;color:var(--primary);font-size:.95rem}
+.appt-info span{font-size:.82rem;color:var(--on-surface-variant)}
+.appt-actions{display:flex;gap:.5rem}
+.appt-actions button{font-size:.8rem;padding:.45rem 1rem}
+
+/* MEDICAL RECORDS */
+.records-page{max-width:900px;margin:0 auto;padding:2rem}
+.record-card{background:var(--surface-lowest);border-radius:var(--radius-xl);padding:1.25rem;border:1px solid var(--outline-variant);margin-bottom:.75rem;display:flex;align-items:center;gap:1rem}
+.record-type-icon{width:44px;height:44px;border-radius:12px;background:var(--surface-container);display:flex;align-items:center;justify-content:center;color:var(--primary);flex-shrink:0}
+.record-meta{flex:1}
+.record-meta strong{display:block;font-weight:600;color:var(--primary);font-size:.92rem}
+.record-meta span{font-size:.8rem;color:var(--on-surface-variant)}
+.download-btn{background:none;border:1px solid var(--outline-variant);border-radius:var(--radius);padding:.4rem .8rem;font-size:.8rem;cursor:pointer;color:var(--primary);font-weight:600;transition:background .2s}
+.download-btn:hover{background:var(--surface-container)}
+
+/* DOCTOR DASHBOARD SPECIFIC */
+.patient-list-item{display:flex;align-items:center;gap:.9rem;padding:.9rem 0;border-bottom:1px solid var(--outline-variant);cursor:pointer}
+.patient-list-item:last-child{border-bottom:none}
+.patient-list-item:hover .patient-name{color:var(--secondary)}
+.patient-name{font-weight:600;color:var(--primary);font-size:.9rem}
+.patient-meta{font-size:.78rem;color:var(--on-surface-variant)}
+
+/* ADMIN PANEL */
+.admin-tabs{display:flex;border-bottom:2px solid var(--outline-variant);margin-bottom:1.5rem;gap:.25rem}
+
+/* CONSULTATION HISTORY & ACCESS LOG */
+.consult-card{display:flex;align-items:flex-start;gap:1rem;padding:1rem;background:var(--surface-low);border-radius:var(--radius-lg);margin-bottom:.75rem;border:1px solid var(--outline-variant);transition:box-shadow .2s}
+.consult-card:hover{box-shadow:0 4px 16px rgba(0,66,83,.08)}
+.consult-doc-avatar{width:48px;height:48px;border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid var(--outline-variant)}
+.consult-doc-avatar img{width:100%;height:100%;object-fit:cover}
+.consult-doc-avatar.initials{background:var(--secondary-container);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;color:var(--primary)}
+.consult-info{flex:1}
+.consult-doc-name{font-weight:700;color:var(--primary);font-size:.92rem}
+.consult-doc-spec{font-size:.78rem;color:var(--secondary);font-weight:600}
+.consult-detail{font-size:.8rem;color:var(--on-surface-variant);margin-top:.3rem;line-height:1.5}
+.consult-badge{font-size:.7rem;padding:.2rem .65rem;border-radius:9999px;background:var(--secondary-container);color:var(--on-secondary-container);font-weight:600;flex-shrink:0;margin-top:.2rem}
+.access-log-item{display:flex;align-items:center;gap:.9rem;padding:.85rem 0;border-bottom:1px solid var(--outline-variant)}
+.access-log-item:last-child{border-bottom:none}
+.access-log-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.access-log-icon.doctor{background:#b7eaff;color:var(--primary)}
+.access-log-icon.system{background:var(--surface-container);color:var(--on-surface-variant)}
+.access-log-icon.alert{background:var(--error-container);color:var(--sos)}
+.access-log-info{flex:1}
+.access-log-info strong{display:block;font-size:.87rem;color:var(--primary);font-weight:600}
+.access-log-info span{font-size:.76rem;color:var(--on-surface-variant)}
+.access-log-time{font-size:.74rem;color:var(--outline);text-align:right}
+.admin-tab{background:none;border:none;padding:.75rem 1.25rem;font-family:var(--font-body);font-size:.9rem;font-weight:600;color:var(--on-surface-variant);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:color .2s,border-color .2s}
+.admin-tab.active{color:var(--primary);border-bottom-color:var(--primary)}
+.data-table{width:100%;border-collapse:collapse;font-size:.85rem}
+.data-table th{text-align:left;padding:.75rem 1rem;font-weight:700;color:var(--primary);font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid var(--outline-variant);background:var(--surface-low)}
+.data-table td{padding:.75rem 1rem;border-bottom:1px solid var(--outline-variant);color:var(--on-surface)}
+.data-table tr:hover td{background:var(--surface-low)}
+.table-wrap{background:var(--surface-lowest);border-radius:var(--radius-xl);border:1px solid var(--outline-variant);overflow:hidden;overflow-x:auto}
+
+/* FADE IN */
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity .5s,transform .5s}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  nav{display:none}.hamburger{display:flex}
+  .portal-grid{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .feature-inner{flex-direction:column;gap:2rem}
+  .glass-card{display:none}
+  .services-grid{grid-template-columns:1fr}
+  .clinics-grid{grid-template-columns:1fr}
+  .footer-inner{grid-template-columns:1fr 1fr}
+  .footer-brand{grid-column:1 / -1}
+  .dash-grid{grid-template-columns:repeat(2,1fr)}
+  .dash-two-col{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .footer-inner{grid-template-columns:1fr}
+  header{padding:1rem}
+  .dash-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- SOS FAB -->
+<button class="sos-fab" id="sosFab" onclick="openModal('sos')" title="SOS Emergency">
+  <span class="material-symbols-outlined">sos</span>
+</button>
+
+<!-- HELP PANEL -->
+<div class="help-panel" id="helpPanel">
+  <div class="help-header">
+    <span>Help & Support</span>
+    <button onclick="closeHelp()"><span class="material-symbols-outlined" style="font-size:1rem">close</span></button>
+  </div>
+  <div class="help-body">
+    <div class="help-item" onclick="showToast('Opening live chat...')">
+      <div class="help-icon"><span class="material-symbols-outlined">chat</span></div>
+      <div class="help-item-text"><strong>Live Chat</strong><span>Talk to a support agent now</span></div>
+    </div>
+    <div class="help-item" onclick="showToast('Calling helpline: 1800-MED-HELP')">
+      <div class="help-icon"><span class="material-symbols-outlined">call</span></div>
+      <div class="help-item-text"><strong>Call Helpline</strong><span>1800-MED-HELP (24/7)</span></div>
+    </div>
+    <div class="help-item" onclick="showToast('Opening FAQ...')">
+      <div class="help-icon"><span class="material-symbols-outlined">help</span></div>
+      <div class="help-item-text"><strong>FAQs</strong><span>Browse common questions</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── HEADER ── -->
+<header>
+  <div style="display:flex;align-items:center;gap:1.5rem">
+    <span class="logo" onclick="showHomePage()">MediConnect</span>
+    <nav id="mainNav">
+      <a class="active" id="nav-home" onclick="navClick(this,'hero');showHomePage()">Home</a>
+      <a id="nav-services" onclick="navClick(this,'services');showHomePage()">Services</a>
+      <a id="nav-clinics" onclick="navClick(this,'clinics');showHomePage()">Clinics</a>
+    </nav>
+  </div>
+  <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="header-right">
+    <div class="notif-wrap" style="position:relative">
+      <button class="btn-ghost" id="notifBtn" title="Notifications">
+        <span class="material-symbols-outlined">notifications</span>
+      </button>
+      <span class="notif-badge" id="notifBadge"></span>
+      <div class="notif-dropdown" id="notifDropdown">
+        <div class="notif-header">
+          <span>Notifications</span>
+          <button onclick="markAllRead()">Mark all read</button>
+        </div>
+        <div id="notifList"></div>
+      </div>
+    </div>
+    <button class="btn-ghost" id="helpBtn" title="Help">
+      <span class="material-symbols-outlined">help_outline</span>
+    </button>
+    <div style="position:relative">
+      <div class="avatar-btn" id="avatarBtn" title="Profile">
+        <span id="avatarInitials">?</span>
+      </div>
+      <div class="profile-dropdown" id="profileDropdown">
+        <div class="profile-info">
+          <div class="profile-name" id="dropdownName">Guest</div>
+          <div class="profile-email" id="dropdownEmail">Not signed in</div>
+        </div>
+        <div id="profileMenuItems"></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav" id="mobileNav">
+  <a onclick="navClick(this,'hero');showHomePage();toggleMobileMenu()" class="active">Home</a>
+  <a onclick="navClick(this,'services');showHomePage();toggleMobileMenu()">Services</a>
+  <a onclick="navClick(this,'clinics');showHomePage();toggleMobileMenu()">Clinics</a>
+</nav>
+
+<!-- ════════ PAGES ════════ -->
+
+<!-- HOME PAGE -->
+<div id="page-home" class="page-view active">
+<main>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-blob-1"></div>
+  <div class="hero-blob-2"></div>
+  <div class="badge-chip">
+    <span class="material-symbols-outlined" style="font-size:.85rem">verified</span>
+    Trusted by 1,200+ doctors across India
+  </div>
+  <h1>Healthcare,<br/><span>reimagined</span> for you.</h1>
+  <p>Book appointments, consult specialists, access your records, and manage your health — all in one place. Built for patients and doctors alike.</p>
+  <div class="portal-grid">
+    <!-- Patient Card -->
+    <div class="portal-card fade-in">
+      <div class="portal-icon patient"><span class="material-symbols-outlined">personal_injury</span></div>
+      <h2>Patient Portal</h2>
+      <p>Book appointments, view prescriptions, access medical records, and manage your health journey with ease.</p>
+      <div class="portal-actions">
+        <button class="btn-primary" onclick="openModal('patientLogin')"><span class="material-symbols-outlined" style="font-size:1rem">login</span>Sign In</button>
+        <button class="btn-secondary" onclick="openModal('patientSignup')">Register</button>
+      </div>
+    </div>
+    <!-- Doctor Card -->
+    <div class="portal-card fade-in" style="transition-delay:.1s">
+      <div class="portal-icon doctor"><span class="material-symbols-outlined">stethoscope</span></div>
+      <h2>Doctor Portal</h2>
+      <p>Access patient records, manage appointments, and collaborate with colleagues in your clinical dashboard.</p>
+      <div class="portal-actions">
+        <button class="btn-primary" onclick="openModal('doctorLogin')"><span class="material-symbols-outlined" style="font-size:1rem">login</span>Sign In</button>
+        <button class="btn-secondary" onclick="openModal('doctorSignup')">Register</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-section">
+  <div class="stats-grid">
+    <div class="fade-in"><div class="stat-num" id="statPatients">0</div><div class="stat-label">Patients Served</div></div>
+    <div class="fade-in" style="transition-delay:.1s"><div class="stat-num" id="statDoctors">0</div><div class="stat-label">Verified Doctors</div></div>
+    <div class="fade-in" style="transition-delay:.2s"><div class="stat-num">98%</div><div class="stat-label">Satisfaction Rate</div></div>
+    <div class="fade-in" style="transition-delay:.3s"><div class="stat-num">24/7</div><div class="stat-label">Support Available</div></div>
+  </div>
+</section>
+
+<!-- FEATURE -->
+<section class="feature-section" id="features">
+  <div class="feature-inner">
+    <div class="feature-img-wrap fade-in">
+      <div style="position:relative;overflow:hidden;border-radius:3rem;aspect-ratio:1">
+        <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&q=80" alt="Doctor with digital health tablet" style="width:100%;height:100%;object-fit:cover;display:block"/>
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(172,236,220,.25),rgba(0,91,113,.15))"></div>
+      </div>
+      <div class="glass-card">
+        <div class="glass-card-title"><span class="material-symbols-outlined" style="font-size:1.1rem">trending_up</span>Health Insights</div>
+        <p>AI-powered analytics help you understand your health trends better than ever.</p>
+      </div>
+    </div>
+    <div class="feature-content fade-in" style="transition-delay:.15s">
+      <span class="feature-eyebrow">Why MediConnect</span>
+      <h2>Your health, always connected</h2>
+      <p>From real-time appointment booking to instant access to your medical history — MediConnect bridges the gap between patients and healthcare providers.</p>
+      <ul class="feature-list">
+        <li>Instant appointment booking with top specialists</li>
+        <li>Secure medical records, always accessible</li>
+        <li>Video, phone, and in-person consultations</li>
+        <li>Prescription management & reminders</li>
+        <li>24/7 SOS emergency assistance</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services-section" id="services">
+  <div class="section-header">
+    <h2>Our Services</h2>
+    <p>Comprehensive healthcare services designed around your needs</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card fade-in" onclick="openModal('bookAppointment')" style="overflow:hidden;padding:0">
+      <div style="height:120px;overflow:hidden;position:relative"><img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400&q=80" alt="Book Appointment" style="width:100%;height:100%;object-fit:cover"/><div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(0,66,83,.7))"></div></div>
+      <div style="padding:1.25rem 1.75rem 1.5rem">
+        <div class="service-icon"><span class="material-symbols-outlined">calendar_month</span></div>
+        <h3>Book Appointment</h3>
+        <p>Schedule with any of 500+ specialists at partner clinics near you.</p>
+      </div>
+    </div>
+    <div class="service-card fade-in" style="transition-delay:.08s;overflow:hidden;padding:0" onclick="handleVideoConsult()">
+      <div style="height:120px;overflow:hidden;position:relative"><img src="https://images.unsplash.com/photo-1609188076864-c35269136b09?w=400&q=80" alt="Video Consultation" style="width:100%;height:100%;object-fit:cover"/><div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(0,66,83,.7))"></div></div>
+      <div style="padding:1.25rem 1.75rem 1.5rem">
+        <div class="service-icon"><span class="material-symbols-outlined">video_call</span></div>
+        <h3>Video Consultation</h3>
+        <p>Talk to your doctor from home via HD video calls, anytime.</p>
+      </div>
+    </div>
+    <div class="service-card fade-in" style="transition-delay:.16s;overflow:hidden;padding:0" onclick="handlePrescriptions()">
+      <div style="height:120px;overflow:hidden;position:relative"><img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&q=80" alt="Prescriptions" style="width:100%;height:100%;object-fit:cover"/><div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(0,66,83,.7))"></div></div>
+      <div style="padding:1.25rem 1.75rem 1.5rem">
+        <div class="service-icon"><span class="material-symbols-outlined">medication</span></div>
+        <h3>Prescriptions</h3>
+        <p>Digital prescriptions sent directly to your pharmacy.</p>
+      </div>
+    </div>
+    <div class="service-card fade-in" style="transition-delay:.24s;overflow:hidden;padding:0" onclick="handleLabTests()">
+      <div style="height:120px;overflow:hidden;position:relative"><img src="https://images.unsplash.com/photo-1579154204601-01588f351e67?w=400&q=80" alt="Lab Tests" style="width:100%;height:100%;object-fit:cover"/><div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(0,66,83,.7))"></div></div>
+      <div style="padding:1.25rem 1.75rem 1.5rem">
+        <div class="service-icon"><span class="material-symbols-outlined">biotech</span></div>
+        <h3>Lab Tests</h3>
+        <p>Book home sample collection or visit partner labs nearby.</p>
+      </div>
+    </div>
+    <div class="service-card fade-in" style="transition-delay:.32s;overflow:hidden;padding:0" onclick="handleHealthRecords()">
+      <div style="height:120px;overflow:hidden;position:relative"><img src="https://images.unsplash.com/photo-1504813184591-01572f98c85f?w=400&q=80" alt="Health Records" style="width:100%;height:100%;object-fit:cover"/><div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(0,66,83,.7))"></div></div>
+      <div style="padding:1.25rem 1.75rem 1.5rem">
+        <div class="service-icon"><span class="material-symbols-outlined">folder_shared</span></div>
+        <h3>Health Records</h3>
+        <p>Secure digital storage of all your medical documents.</p>
+      </div>
+    </div>
+    <div class="service-card fade-in" style="transition-delay:.4s;overflow:hidden;padding:0" onclick="openModal('sos')">
+      <div style="height:120px;overflow:hidden;position:relative"><img src="https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?w=400&q=80" alt="Emergency SOS" style="width:100%;height:100%;object-fit:cover"/><div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(211,47,47,.7))"></div></div>
+      <div style="padding:1.25rem 1.75rem 1.5rem">
+        <div class="service-icon" style="background:var(--error-container);color:var(--sos)"><span class="material-symbols-outlined">sos</span></div>
+        <h3>Emergency SOS</h3>
+        <p>Instant alert to emergency contacts and nearest hospitals.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLINICS -->
+<section class="clinics-section" id="clinics">
+  <div class="section-header">
+    <h2>Partner Clinics</h2>
+    <p>Top-rated hospitals and clinics partnered with MediConnect</p>
+  </div>
+  <div class="clinics-grid">
+    <div class="clinic-card fade-in">
+      <div class="clinic-img-placeholder" style="padding:0;overflow:hidden"><img src="https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?w=400&q=80" alt="Apollo Clinic" style="width:100%;height:100%;object-fit:cover"/></div>
+      <div class="clinic-info">
+        <h3>Apollo Clinic</h3>
+        <div class="clinic-meta"><span class="material-symbols-outlined">location_on</span>Banjara Hills, Hyderabad</div>
+        <span class="clinic-tag">Cardiology</span><span class="clinic-tag">Neurology</span><span class="clinic-tag">Oncology</span>
+        <button class="btn-primary clinic-book-btn" onclick="openModal('bookAppointment')">Book Now</button>
+      </div>
+    </div>
+    <div class="clinic-card fade-in" style="transition-delay:.1s">
+      <div class="clinic-img-placeholder" style="padding:0;overflow:hidden"><img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400&q=80" alt="Care Hospitals" style="width:100%;height:100%;object-fit:cover"/></div>
+      <div class="clinic-info">
+        <h3>Care Hospitals</h3>
+        <div class="clinic-meta"><span class="material-symbols-outlined">location_on</span>Nampally, Hyderabad</div>
+        <span class="clinic-tag">Orthopaedics</span><span class="clinic-tag">General</span><span class="clinic-tag">Paediatrics</span>
+        <button class="btn-primary clinic-book-btn" onclick="openModal('bookAppointment')">Book Now</button>
+      </div>
+    </div>
+    <div class="clinic-card fade-in" style="transition-delay:.2s">
+      <div class="clinic-img-placeholder" style="padding:0;overflow:hidden"><img src="https://images.unsplash.com/photo-1632833239869-a37e3a5806d2?w=400&q=80" alt="Yashoda Hospitals" style="width:100%;height:100%;object-fit:cover"/></div>
+      <div class="clinic-info">
+        <h3>Yashoda Hospitals</h3>
+        <div class="clinic-meta"><span class="material-symbols-outlined">location_on</span>Secunderabad, Hyderabad</div>
+        <span class="clinic-tag">Dermatology</span><span class="clinic-tag">Psychiatry</span><span class="clinic-tag">ENT</span>
+        <button class="btn-primary clinic-book-btn" onclick="openModal('bookAppointment')">Book Now</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="logo">MediConnect</span>
+      <p>Bridging patients and healthcare providers across India. Trusted, secure, and always available.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#" onclick="openModal('bookAppointment');return false">Book Appointment</a></li>
+        <li><a href="#" onclick="showToast('Video consultation coming soon!');return false">Video Consult</a></li>
+        <li><a href="#" onclick="showToast('Lab booking coming soon!');return false">Lab Tests</a></li>
+        <li><a href="#" onclick="openModal('sos');return false">Emergency SOS</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>For Doctors</h4>
+      <ul>
+        <li><a href="#" onclick="openModal('doctorSignup');return false">Join Network</a></li>
+        <li><a href="#" onclick="openModal('doctorLogin');return false">Doctor Login</a></li>
+        <li><a href="#" onclick="showToast('Documentation coming soon!');return false">API Access</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#" onclick="showToast('About page coming soon!');return false">About Us</a></li>
+        <li><a href="#" onclick="showToast('Careers page coming soon!');return false">Careers</a></li>
+        <li><a href="#" onclick="showToast('Privacy policy coming soon!');return false">Privacy Policy</a></li>
+        <li><a href="#" onclick="showToast('Terms coming soon!');return false">Terms of Service</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 MediConnect. All rights reserved.</span>
+    <div class="footer-socials">
+      <a href="#" onclick="return false">Twitter</a>
+      <a href="#" onclick="return false">LinkedIn</a>
+      <a href="#" onclick="return false">Facebook</a>
+    </div>
+  </div>
+</footer>
+</div>
+
+<!-- PATIENT DASHBOARD PAGE -->
+<div id="page-patientDash" class="page-view">
+<div class="dashboard">
+  <div class="dash-header">
+    <div>
+      <div class="dash-title" id="patientDashTitle">Welcome back!</div>
+      <div class="dash-sub">Here's your health overview</div>
+    </div>
+    <button class="btn-primary" onclick="openModal('bookAppointment')"><span class="material-symbols-outlined" style="font-size:1rem">add</span>Book Appointment</button>
+  </div>
+  <div class="dash-grid">
+    <div class="dash-stat">
+      <div class="dash-stat-icon"><span class="material-symbols-outlined">calendar_month</span></div>
+      <div class="dash-stat-num" id="pdStatAppts">0</div>
+      <div class="dash-stat-label">Total Appointments</div>
+    </div>
+    <div class="dash-stat">
+      <div class="dash-stat-icon"><span class="material-symbols-outlined">pending_actions</span></div>
+      <div class="dash-stat-num" id="pdStatUpcoming">0</div>
+      <div class="dash-stat-label">Upcoming</div>
+    </div>
+    <div class="dash-stat">
+      <div class="dash-stat-icon"><span class="material-symbols-outlined">medication</span></div>
+      <div class="dash-stat-num" id="pdStatPrescriptions">0</div>
+      <div class="dash-stat-label">Prescriptions</div>
+    </div>
+    <div class="dash-stat">
+      <div class="dash-stat-icon"><span class="material-symbols-outlined">folder_shared</span></div>
+      <div class="dash-stat-num" id="pdStatRecords">0</div>
+      <div class="dash-stat-label">Medical Records</div>
+    </div>
+  </div>
+  <div class="dash-two-col">
+    <div class="dash-card">
+      <div class="dash-card-title">Upcoming Appointments <button class="btn-primary" onclick="showPatientAppointments()">View All</button></div>
+      <div id="pdUpcomingAppts"><div class="empty-state"><span class="material-symbols-outlined">calendar_month</span>No upcoming appointments</div></div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-card-title">Quick Actions</div>
+      <div style="display:flex;flex-direction:column;gap:.75rem">
+        <button class="btn-secondary" style="justify-content:flex-start" onclick="openModal('bookAppointment')"><span class="material-symbols-outlined">calendar_add_on</span>Book New Appointment</button>
+        <button class="btn-secondary" style="justify-content:flex-start" onclick="showPatientRecords()"><span class="material-symbols-outlined">folder_shared</span>View Medical Records</button>
+        <button class="btn-secondary" style="justify-content:flex-start" onclick="showPatientProfile()"><span class="material-symbols-outlined">manage_accounts</span>Edit Profile</button>
+        <button class="btn-danger" style="justify-content:flex-start" onclick="openModal('sos')"><span class="material-symbols-outlined">sos</span>Emergency SOS</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- PATIENT APPOINTMENTS PAGE -->
+<div id="page-patientAppts" class="page-view">
+<div class="appointments-page">
+  <div class="dash-header">
+    <div>
+      <div class="dash-title">My Appointments</div>
+      <div class="dash-sub">Track and manage your appointments</div>
+    </div>
+    <button class="btn-primary" onclick="openModal('bookAppointment')"><span class="material-symbols-outlined" style="font-size:1rem">add</span>Book New</button>
+  </div>
+  <div class="appt-filters">
+    <button class="appt-filter-btn active" onclick="filterAppts('all',this)">All</button>
+    <button class="appt-filter-btn" onclick="filterAppts('confirmed',this)">Confirmed</button>
+    <button class="appt-filter-btn" onclick="filterAppts('pending',this)">Pending</button>
+    <button class="appt-filter-btn" onclick="filterAppts('cancelled',this)">Cancelled</button>
+  </div>
+  <div id="apptList"></div>
+</div>
+</div>
+
+<!-- PATIENT RECORDS PAGE -->
+<div id="page-patientRecords" class="page-view">
+<div class="records-page">
+  <div class="dash-header">
+    <div>
+      <div class="dash-title">Medical Records</div>
+      <div class="dash-sub">Your complete health history</div>
+    </div>
+    <button class="btn-primary" onclick="openModal('addRecord')"><span class="material-symbols-outlined" style="font-size:1rem">add</span>Add Record</button>
+  </div>
+  <div id="recordsList"></div>
+</div>
+</div>
+
+<!-- PATIENT PROFILE PAGE -->
+<div id="page-patientProfile" class="page-view">
+<div class="profile-page">
+  <div class="profile-hero">
+    <div class="profile-avatar-lg" id="ppAvatarLg">?</div>
+    <div class="profile-hero-info">
+      <h2 id="ppName">Patient Name</h2>
+      <p id="ppRole">Patient · MediConnect</p>
+    </div>
+  </div>
+  <div class="profile-section">
+    <div class="profile-section-title">Personal Information <button class="btn-primary" style="font-size:.78rem;padding:.4rem 1rem" onclick="openModal('editPatientProfile')">Edit</button></div>
+    <div id="patientProfileFields"></div>
+  </div>
+  <div class="profile-section">
+    <div class="profile-section-title">Emergency Contacts</div>
+    <div id="patientEmergencyContacts"></div>
+    <button class="btn-secondary" style="width:100%;justify-content:center;margin-top:.75rem" onclick="openModal('addEmergencyContact')">
+      <span class="material-symbols-outlined" style="font-size:1rem">add</span>Add Emergency Contact
+    </button>
+  </div>
+
+  <!-- CONSULTATION HISTORY -->
+  <div class="profile-section">
+    <div class="profile-section-title">
+      <span style="display:flex;align-items:center;gap:.5rem"><span class="material-symbols-outlined" style="font-size:1.1rem;color:var(--secondary)">history</span>Recent Consultations</span>
+      <button class="btn-primary" style="font-size:.78rem;padding:.4rem 1rem" onclick="showPatientAppointments()">View All</button>
+    </div>
+    <div id="patientConsultationHistory"><div class="empty-state"><span class="material-symbols-outlined">history</span>No consultations yet</div></div>
+  </div>
+
+  <!-- PROFILE ACCESS LOG (Security) -->
+  <div class="profile-section">
+    <div class="profile-section-title">
+      <span style="display:flex;align-items:center;gap:.5rem"><span class="material-symbols-outlined" style="font-size:1.1rem;color:var(--sos)">security</span>Profile Access Log</span>
+      <span style="font-size:.72rem;font-weight:600;padding:.2rem .7rem;border-radius:9999px;background:var(--error-container);color:var(--sos)">Security</span>
+    </div>
+    <p style="font-size:.82rem;color:var(--on-surface-variant);margin-bottom:1rem;line-height:1.5">Doctors and staff who have recently accessed your profile. This is for your security and transparency.</p>
+    <div id="patientProfileAccessLog"><div class="empty-state"><span class="material-symbols-outlined">shield</span>No access events recorded</div></div>
+  </div>
+</div>
+</div>
+
+<!-- DOCTOR DASHBOARD PAGE -->
+<div id="page-doctorDash" class="page-view">
+<div class="dashboard">
+  <div class="dash-header">
+    <div>
+      <div class="dash-title" id="doctorDashTitle">Doctor Dashboard</div>
+      <div class="dash-sub">Manage patients and appointments</div>
+    </div>
+    <button class="btn-primary" onclick="showDoctorAppointments()"><span class="material-symbols-outlined" style="font-size:1rem">calendar_month</span>View Schedule</button>
+  </div>
+  <div class="dash-grid">
+    <div class="dash-stat">
+      <div class="dash-stat-icon" style="background:#b7eaff"><span class="material-symbols-outlined">groups</span></div>
+      <div class="dash-stat-num" id="ddStatPatients">0</div>
+      <div class="dash-stat-label">Total Patients</div>
+    </div>
+    <div class="dash-stat">
+      <div class="dash-stat-icon" style="background:#b7eaff"><span class="material-symbols-outlined">pending_actions</span></div>
+      <div class="dash-stat-num" id="ddStatToday">0</div>
+      <div class="dash-stat-label">Today's Appointments</div>
+    </div>
+    <div class="dash-stat">
+      <div class="dash-stat-icon" style="background:#b7eaff"><span class="material-symbols-outlined">check_circle</span></div>
+      <div class="dash-stat-num" id="ddStatCompleted">0</div>
+      <div class="dash-stat-label">Completed</div>
+    </div>
+    <div class="dash-stat">
+      <div class="dash-stat-icon" style="background:#b7eaff"><span class="material-symbols-outlined">star</span></div>
+      <div class="dash-stat-num">4.9</div>
+      <div class="dash-stat-label">Avg Rating</div>
+    </div>
+  </div>
+  <div class="dash-two-col">
+    <div class="dash-card">
+      <div class="dash-card-title">Today's Appointments</div>
+      <div id="ddTodayAppts"><div class="empty-state"><span class="material-symbols-outlined">calendar_month</span>No appointments today</div></div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-card-title">Recent Patients</div>
+      <div id="ddRecentPatients"><div class="empty-state"><span class="material-symbols-outlined">groups</span>No patient records yet</div></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- DOCTOR APPOINTMENTS PAGE -->
+<div id="page-doctorAppts" class="page-view">
+<div class="appointments-page">
+  <div class="dash-header">
+    <div>
+      <div class="dash-title">Appointment Schedule</div>
+      <div class="dash-sub">Manage your patient appointments</div>
+    </div>
+  </div>
+  <div id="doctorApptList"></div>
+</div>
+</div>
+
+<!-- DOCTOR PATIENTS PAGE -->
+<div id="page-doctorPatients" class="page-view">
+<div class="dashboard">
+  <div class="dash-header">
+    <div class="dash-title">Patient Registry</div>
+    <div class="dash-sub" style="margin-top:.25rem" id="patientCount"></div>
+  </div>
+  <div class="dash-card" style="max-width:900px">
+    <div class="dash-card-title">All Registered Patients</div>
+    <div id="doctorPatientList"></div>
+  </div>
+</div>
+</div>
+
+<!-- DOCTOR PROFILE PAGE -->
+<div id="page-doctorProfile" class="page-view">
+<div class="profile-page">
+  <div class="profile-hero" style="background:linear-gradient(135deg,#005b71,#28695c)">
+    <div class="profile-avatar-lg" id="dpAvatarLg">?</div>
+    <div class="profile-hero-info">
+      <h2 id="dpName">Doctor Name</h2>
+      <p id="dpSpec">Specialization · MediConnect</p>
+    </div>
+  </div>
+  <div class="profile-section">
+    <div class="profile-section-title">Professional Information <button class="btn-primary" style="font-size:.78rem;padding:.4rem 1rem" onclick="openModal('editDoctorProfile')">Edit</button></div>
+    <div id="doctorProfileFields"></div>
+  </div>
+</div>
+</div>
+
+<!-- ADMIN PANEL PAGE -->
+<div id="page-admin" class="page-view">
+<div class="dashboard">
+  <div class="dash-header">
+    <div class="dash-title">Admin Panel</div>
+  </div>
+  <div class="admin-tabs">
+    <button class="admin-tab active" onclick="switchAdminTab('patients',this)">Patients</button>
+    <button class="admin-tab" onclick="switchAdminTab('doctors',this)">Doctors</button>
+    <button class="admin-tab" onclick="switchAdminTab('appointments',this)">Appointments</button>
+  </div>
+  <div id="adminContent"></div>
+</div>
+</div>
+
+<!-- ════════ MODALS ════════ -->
+
+<!-- PATIENT LOGIN -->
+<div class="modal-overlay" id="modal-patientLogin" onclick="overlayClose(event,this)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('patientLogin')"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
+    <div class="modal-icon patient"><span class="material-symbols-outlined">personal_injury</span></div>
+    <h2>Patient Login</h2>
+    <p class="modal-sub">Access your health dashboard and records.</p>
+    <form onsubmit="handlePatientLogin(event)">
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="pl-email" placeholder="you@example.com" required autocomplete="email"/>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="pl-pass" placeholder="••••••••" required autocomplete="current-password"/>
+        <div class="error-msg" id="pl-err">Invalid credentials. Please try again.</div>
+      </div>
+      <div class="forgot-link"><a href="#" onclick="showToast('Password reset email sent!');return false">Forgot password?</a></div>
+      <div class="form-footer">
+        <button type="submit" class="btn-primary">Sign In <span class="material-symbols-outlined" style="font-size:1rem">arrow_forward</span></button>
+        <div class="form-divider">or</div>
+        <button type="button" class="btn-secondary" onclick="openModal('patientSignup');closeModal('patientLogin')">New patient? Create Account</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- PATIENT SIGNUP -->
+<div class="modal-overlay" id="modal-patientSignup" onclick="overlayClose(event,this)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('patientSignup')"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
+    <div class="modal-icon patient"><span class="material-symbols-outlined">personal_injury</span></div>
+    <h2>Create Account</h2>
+    <p class="modal-sub">Join thousands of patients managing their health with MediConnect.</p>
+    <form onsubmit="handlePatientSignup(event)">
+      <div class="form-row">
+        <div class="form-group"><label>First Name</label><input type="text" id="ps-fname" placeholder="Ananya" required/></div>
+        <div class="form-group"><label>Last Name</label><input type="text" id="ps-lname" placeholder="Reddy" required/></div>
+      </div>
+      <div class="form-group"><label>Email Address</label><input type="email" id="ps-email" placeholder="you@example.com" required/></div>
+      <div class="form-group"><label>Phone Number</label><input type="tel" id="ps-phone" placeholder="+91 98765 43210" required/></div>
+      <div class="form-group"><label>Date of Birth</label><input type="date" id="ps-dob" required/></div>
+      <div class="form-group"><label>Blood Group</label>
+        <select id="ps-blood">
+          <option value="">Select blood group</option>
+          <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+          <option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Create Password</label><input type="password" id="ps-pass" placeholder="Min. 8 characters" required minlength="8"/></div>
+      <div class="error-msg" id="ps-err" style="display:none;margin-bottom:.5rem"></div>
+      <div class="form-footer">
+        <button type="submit" class="btn-primary">Create Account <span class="material-symbols-outlined" style="font-size:1rem">arrow_forward</span></button>
+        <button type="button" class="btn-secondary" onclick="openModal('patientLogin');closeModal('patientSignup')">Already have an account? Sign In</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- DOCTOR LOGIN -->
+<div class="modal-overlay" id="modal-doctorLogin" onclick="overlayClose(event,this)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('doctorLogin')"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
+    <div class="modal-icon doctor"><span class="material-symbols-outlined">stethoscope</span></div>
+    <h2>Doctor Login</h2>
+    <p class="modal-sub">Access your clinical dashboard and patient records.</p>
+    <form onsubmit="handleDoctorLogin(event)">
+      <div class="form-group"><label>Email Address</label><input type="email" id="dl-email" placeholder="doctor@hospital.com" required autocomplete="email"/></div>
+      <div class="form-group"><label>Password</label><input type="password" id="dl-pass" placeholder="••••••••" required autocomplete="current-password"/>
+        <div class="error-msg" id="dl-err">Invalid credentials. Please try again.</div>
+      </div>
+      <div class="forgot-link"><a href="#" onclick="showToast('Password reset email sent!');return false">Forgot password?</a></div>
+      <div class="form-footer">
+        <button type="submit" class="btn-primary">Sign In <span class="material-symbols-outlined" style="font-size:1rem">arrow_forward</span></button>
+        <div class="form-divider">or</div>
+        <button type="button" class="btn-secondary" onclick="openModal('doctorSignup');closeModal('doctorLogin')">New to MediConnect? Register</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- DOCTOR SIGNUP -->
+<div class="modal-overlay" id="modal-doctorSignup" onclick="overlayClose(event,this)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('doctorSignup')"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
+    <div class="modal-icon doctor"><span class="material-symbols-outlined">stethoscope</span></div>
+    <h2>Doctor Registration</h2>
+    <p class="modal-sub">Join our network of verified specialists.</p>
+    <form onsubmit="handleDoctorSignup(event)">
+      <div class="form-row">
+        <div class="form-group"><label>First Name</label><input type="text" id="ds-fname" placeholder="Vikram" required/></div>
+        <div class="form-group"><label>Last Name</label><input type="text" id="ds-lname" placeholder="Mehta" required/></div>
+      </div>
+      <div class="form-group"><label>Email Address</label><input type="email" id="ds-email" placeholder="doctor@hospital.com" required/></div>
+      <div class="form-group"><label>Phone Number</label><input type="tel" id="ds-phone" placeholder="+91 98765 43210" required/></div>
+      <div class="form-group"><label>Medical Registration Number</label><input type="text" id="ds-reg" placeholder="MCI-123456" required/></div>
+      <div class="form-group"><label>Specialization</label>
+        <select id="ds-spec" required>
+          <option value="">Select specialization</option>
+          <option>Cardiology</option><option>Neurology</option><option>Orthopaedics</option>
+          <option>Oncology</option><option>General Medicine</option><option>Paediatrics</option>
+          <option>Dermatology</option><option>Psychiatry</option><option>ENT</option><option>Ophthalmology</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Hospital / Clinic</label><input type="text" id="ds-hospital" placeholder="Apollo Clinic, Hyderabad" required/></div>
+      <div class="form-group"><label>Years of Experience</label><input type="number" id="ds-exp" placeholder="10" min="0" max="60" required/></div>
+      <div class="form-group"><label>Create Password</label><input type="password" id="ds-pass" placeholder="Min. 8 characters" required minlength="8"/></div>
+      <div class="error-msg" id="ds-err" style="display:none;margin-bottom:.5rem"></div>
+      <div class="form-footer">
+        <button type="submit" class="btn-primary">Register <span class="material-symbols-outlined" style="font-size:1rem">arrow_forward</span></button>
+        <button type="button" class="btn-secondary" onclick="openModal('doctorLogin');closeModal('doctorSignup')">Already registered? Sign In</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- BOOK APPOINTMENT -->
+<div class="modal-overlay" id="modal-bookAppointment" onclick="overlayClose(event,this)">
+  <div class="modal" style="max-width:480px">
+    <button class="modal-close" onclick="closeModal('bookAppointment')"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
+    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem">
+      <div class="modal-icon patient" style="margin-bottom:0;width:40px;height:40px;border-radius:10px"><span class="material-symbols-outlined" style="font-size:1.2rem">calendar_month</span></div>
+      <div><h2 style="font-size:1.25rem;margin-bottom:0">Book Appointment</h2><p class="modal-sub" style="margin-bottom:0;font-size:.82rem">Fill in details to schedule your visit</p></div>
+    </div>
+    <div class="booking-steps">
+      <div class="step-dot active" id="bstep-1"></div>
+      <div class="step-dot" id="bstep-2"></div>
+      <div class="step-dot" id="bstep-3"></div>
+    </div>
+    <form id="bookingForm" onsubmit="handleBooking(event)">
+      <div id="booking-step-1">
+        <div class="form-group"><label>Full Name</label><input type="text" id="bk-name" placeholder="Your full name" required/></div>
+        <div class="form-group"><label>Phone Number</label><input type="tel" id="bk-phone" placeholder="+91 98765 43210" required/></div>
+        <div class="form-group"><label>Specialization Needed</label>
+          <select id="bk-spec" required>
+            <option value="">Select department</option>
+            <option>Cardiology</option><option>Neurology</option><option>Orthopaedics</option>
+            <option>General Medicine</option><option>Paediatrics</option><option>Dermatology</option><option>Psychiatry</option><option>ENT</option>
+          </select>
+        </div>
+        <button type="button" class="btn-primary" style="width:100%;justify-content:center;margin-top:.5rem" onclick="bookingNext(1)">Continue <span class="material-symbols-outlined" style="font-size:1rem">arrow_forward</span></button>
+      </div>
+      <div id="booking-step-2" style="display:none">
+        <div class="form-group"><label>Doctor</label>
+          <select id="bk-doctor" required><option value="">Select doctor</option></select>
+        </div>
+        <div class="form-group"><label>Clinic / Hospital</label>
+          <select id="bk-clinic" required>
+            <option value="">Select clinic</option>
+            <option>Apollo Clinic — Banjara Hills</option>
+            <option>Care Hospitals — Nampally</option>
+            <option>Yashoda Hospitals — Secunderabad</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Preferred Date</label><input type="date" id="bk-date" required/></div>
+        <div class="form-group"><label>Preferred Time</label>
+          <select id="bk-time" required>
+            <option value="">Select time slot</option>
+            <option>09:00 AM</option><option>10:00 AM</option><option>11:00 AM</option>
+            <option>02:00 PM</option><option>03:00 PM</option><option>04:00 PM</option>
+          </select>
+        </div>
+        <div style="display:flex;gap:.75rem;margin-top:.5rem">
+          <button type="button" class="btn-secondary" style="flex:1;justify-content:center" onclick="bookingBack(2)">Back</button>
+          <button type="button" class="btn-primary" style="flex:2;justify-content:center" onclick="bookingNext(2)">Continue <span class="material-symbols-outlined" style="font-size:1rem">arrow_forward</span></button>
+        </div>
+      </div>
+      <div id="booking-step-3" style="display:none">
+        <div class="form-group"><label>Reason for Visit</label><input type="text" id="bk-reason" placeholder="Brief description of your concern" required/></div>
+        <div class="form-group"><label>Consultation Type</label>
+          <select id="bk-type">
+            <option>In-person</option><option>Video Call</option><option>Phone Call</option>
+          </select>
+        </div>
+        <div style="background:var(--surface-container);border-radius:var(--radius-lg);padding:1rem;margin-bottom:1rem;font-size:.85rem;color:var(--on-surface-variant);line-height:1.6">
+          <strong style="color:var(--primary);display:block;margin-bottom:.3rem">Booking Summary</strong>
+          <span id="bookingSummary">Confirm details on the previous steps before submitting. You'll receive a confirmation via SMS and email.</span>
+        </div>
+        <div style="display:flex;gap:.75rem">
+          <button type="button" class="btn-secondary" style="flex:1;justify-content:center" onclick="bookingBack(3)">Back</button>
+          <button type="submit" class="btn-primary" style="flex:2;justify-content:center">Confirm Booking <span class="material-symbols-outlined" style="font-size:1rem">check</span></button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- SOS MODAL -->
+<div class="modal-overlay" id="modal-sos" onclick="overlayClose(event,this)">
+  <div class="modal sos-modal">
+    <button class="modal-close" onclick="closeModal('sos')"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
+    <div class="modal-icon sos"><span class="material-symbols-outlined">sos</span></div>
+    <h2 style="color:var(--sos)">Emergency SOS</h2>
+    <p class="modal-sub">Select an action below to get immediate help.</p>
+    <div class="sos-alert">
+      <span class="material-symbols-outlined">warning</span>
+      For life-threatening emergencies, call 112 immediately.
+    </div>
+    <div class="sos-contacts" id="sosContacts">
+      <div class="sos-contact" onclick="triggerSOS('ambulance')">
+        <div class="sos-contact-icon" style="background:var(--error-container)"><span class="material-symbols-outlined" style="color:var(--sos)">emergency</span></div>
+        <div class="sos-contact-info"><strong>Call Ambulance</strong><span>Dispatch nearest ambulance</span></div>
+      </div>
+      <div class="sos-contact" onclick="triggerSOS('hospital')">
+        <div class="sos-contact-icon" style="background:#b7eaff"><span class="material-symbols-outlined" style="color:var(--primary)">local_hospital</span></div>
+        <div class="sos-contact-info"><strong>Nearest Hospital</strong><span>Apollo Clinic — 2.3 km away</span></div>
+      </div>
+    </div>
+    <div id="emergencyContactsSOS"></div>
+    <button class="btn-danger" style="width:100%;justify-content:center;font-size:1rem;padding:1rem" onclick="triggerSOS('all')">
+      <span class="material-symbols-outlined">campaign</span>
+      ALERT ALL EMERGENCY CONTACTS
+    </button>
+  </div>
+</div>
+
+<!-- ADD RECORD MODAL -->
+<div class="modal-overlay" id="modal-addRecord" onclick="overlayClose(event,this)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('addRecord')"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
+    <div class="modal-icon patient"><span class="material-symbols-outlined">note_add</span></div>
+    <h2>Add Medical Record</h2>
+    <p class="modal-sub">Upload or add a new medical document.</p>
+    <form onsubmit="handleAddRecord(event)">
+      <div class="form-group"><label>Record Type</label>
+        <select id="rec-type" required>
+          <option value="">Select type</option>
+          <option>Lab Report</option><option>Prescription</option><option>Discharge Summary</option>
+          <option>Radiology Report</option><option>Vaccination Record</option><option>Other</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Title / Description</label><input type="text" id="rec-title" placeholder="e.g. Blood Test Report — Jan 2025" required/></div>
+      <div class="form-group"><label>Doctor / Hospital</label><input type="text" id="rec-doctor" placeholder="Dr. Vikram Mehta · Apollo Clinic"/></div>
+      <div class="form-group"><label>Date</label><input type="date" id="rec-date" required/></div>
+      <div class="form-group"><label>Notes</label><textarea id="rec-notes" placeholder="Any additional notes..."></textarea></div>
+      <div class="form-footer">
+        <button type="submit" class="btn-primary">Save Record <span class="material-symbols-outlined" style="font-size:1rem">save</span></button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ADD EMERGENCY CONTACT MODAL -->
+<div class="modal-overlay" id="modal-addEmergencyContact" onclick="overlayClose(event,this)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('addEmergencyContact')"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
+    <div class="modal-icon sos"><span class="material-symbols-outlined">contact_emergency</span></div>
+    <h2>Add Emergency Contact</h2>
+    <p class="modal-sub">This person will be alerted in case of an SOS.</p>
+    <form onsubmit="handleAddEmergencyContact(event)">
+      <div class="form-group"><label>Full Name</label><input type="text" id="ec-name" placeholder="Contact name" required/></div>
+      <div class="form-group"><label>Relationship</label>
+        <select id="ec-rel" required>
+          <option value="">Select relationship</option>
+          <option>Parent</option><option>Spouse</option><option>Child</option><option>Sibling</option><option>Friend</option><option>Other</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Phone Number</label><input type="tel" id="ec-phone" placeholder="+91 98765 43210" required/></div>
+      <div class="form-footer">
+        <button type="submit" class="btn-primary">Add Contact <span class="material-symbols-outlined" style="font-size:1rem">check</span></button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- EDIT PATIENT PROFILE MODAL -->
+<div class="modal-overlay" id="modal-editPatientProfile" onclick="overlayClose(event,this)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('editPatientProfile')"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
+    <div class="modal-icon patient"><span class="material-symbols-outlined">manage_accounts</span></div>
+    <h2>Edit Profile</h2>
+    <p class="modal-sub">Update your personal information.</p>
+    <form onsubmit="handleEditPatientProfile(event)">
+      <div class="form-row">
+        <div class="form-group"><label>First Name</label><input type="text" id="ep-fname" required/></div>
+        <div class="form-group"><label>Last Name</label><input type="text" id="ep-lname" required/></div>
+      </div>
+      <div class="form-group"><label>Phone</label><input type="tel" id="ep-phone"/></div>
+      <div class="form-group"><label>Date of Birth</label><input type="date" id="ep-dob"/></div>
+      <div class="form-group"><label>Blood Group</label>
+        <select id="ep-blood">
+          <option value="">Select</option>
+          <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+          <option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Address</label><textarea id="ep-address" rows="2" placeholder="Your address"></textarea></div>
+      <div class="form-group"><label>Known Allergies</label><input type="text" id="ep-allergies" placeholder="e.g. Penicillin, Peanuts"/></div>
+      <div class="form-footer">
+        <button type="submit" class="btn-primary">Save Changes <span class="material-symbols-outlined" style="font-size:1rem">save</span></button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- EDIT DOCTOR PROFILE MODAL -->
+<div class="modal-overlay" id="modal-editDoctorProfile" onclick="overlayClose(event,this)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('editDoctorProfile')"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
+    <div class="modal-icon doctor"><span class="material-symbols-outlined">manage_accounts</span></div>
+    <h2>Edit Profile</h2>
+    <p class="modal-sub">Update your professional information.</p>
+    <form onsubmit="handleEditDoctorProfile(event)">
+      <div class="form-row">
+        <div class="form-group"><label>First Name</label><input type="text" id="edp-fname" required/></div>
+        <div class="form-group"><label>Last Name</label><input type="text" id="edp-lname" required/></div>
+      </div>
+      <div class="form-group"><label>Phone</label><input type="tel" id="edp-phone"/></div>
+      <div class="form-group"><label>Specialization</label>
+        <select id="edp-spec">
+          <option>Cardiology</option><option>Neurology</option><option>Orthopaedics</option>
+          <option>Oncology</option><option>General Medicine</option><option>Paediatrics</option>
+          <option>Dermatology</option><option>Psychiatry</option><option>ENT</option><option>Ophthalmology</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Hospital / Clinic</label><input type="text" id="edp-hospital"/></div>
+      <div class="form-group"><label>Bio</label><textarea id="edp-bio" rows="3" placeholder="Brief professional bio..."></textarea></div>
+      <div class="form-footer">
+        <button type="submit" class="btn-primary">Save Changes <span class="material-symbols-outlined" style="font-size:1rem">save</span></button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ADD PRESCRIPTION MODAL -->
+<div class="modal-overlay" id="modal-addPrescription" onclick="overlayClose(event,this)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('addPrescription')"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
+    <div class="modal-icon doctor"><span class="material-symbols-outlined">medication</span></div>
+    <h2>Issue Prescription</h2>
+    <p class="modal-sub">Write a prescription for a patient.</p>
+    <form onsubmit="handleAddPrescription(event)">
+      <div class="form-group"><label>Patient Name</label><input type="text" id="presc-patient" placeholder="Patient's full name" required/></div>
+      <div class="form-group"><label>Diagnosis</label><input type="text" id="presc-diagnosis" placeholder="Primary diagnosis" required/></div>
+      <div class="form-group"><label>Medications</label><textarea id="presc-meds" rows="3" placeholder="List medications, dosage and frequency..." required></textarea></div>
+      <div class="form-group"><label>Instructions</label><textarea id="presc-notes" rows="2" placeholder="Special instructions for the patient..."></textarea></div>
+      <div class="form-footer">
+        <button type="submit" class="btn-primary">Issue Prescription <span class="material-symbols-outlined" style="font-size:1rem">send</span></button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ════════ SCRIPTS ════════ -->
+<script>
+// ═══════════════════════════════════════════
+//  DATA LAYER (localStorage as backend)
+// ═══════════════════════════════════════════
+const DB = {
+  get: (key) => { try { return JSON.parse(localStorage.getItem('mc_' + key)) || []; } catch { return []; } },
+  getObj: (key) => { try { return JSON.parse(localStorage.getItem('mc_' + key)) || null; } catch { return null; } },
+  set: (key, val) => { localStorage.setItem('mc_' + key, JSON.stringify(val)); },
+  push: (key, item) => { const arr = DB.get(key); arr.push(item); DB.set(key, arr); return item; },
+  update: (key, id, updates) => {
+    const arr = DB.get(key);
+    const idx = arr.findIndex(i => i.id === id);
+    if (idx !== -1) { arr[idx] = {...arr[idx], ...updates}; DB.set(key, arr); return arr[idx]; }
+  },
+  remove: (key, id) => { const arr = DB.get(key).filter(i => i.id !== id); DB.set(key, arr); },
+  findBy: (key, field, val) => DB.get(key).find(i => i[field] === val) || null,
+  id: () => Date.now().toString(36) + Math.random().toString(36).slice(2,6)
+};
+
+// Current session
+let currentUser = DB.getObj('session');
+
+// ═══════════════════════════════════════════
+//  AUTH
+// ═══════════════════════════════════════════
+function handlePatientLogin(e) {
+  e.preventDefault();
+  const email = document.getElementById('pl-email').value.trim();
+  const pass = document.getElementById('pl-pass').value;
+  const patient = DB.findBy('patients', 'email', email);
+  if (!patient || patient.password !== pass) {
+    document.getElementById('pl-err').style.display = 'block';
+    return;
+  }
+  document.getElementById('pl-err').style.display = 'none';
+  currentUser = { ...patient, role: 'patient' };
+  DB.set('session', currentUser);
+  closeModal('patientLogin');
+  showToast('✓ Welcome back, ' + patient.firstName + '!');
+  renderHeader();
+  showPatientDashboard();
+}
+
+function handlePatientSignup(e) {
+  e.preventDefault();
+  const email = document.getElementById('ps-email').value.trim();
+  if (DB.findBy('patients', 'email', email)) {
+    document.getElementById('ps-err').textContent = 'Email already registered.';
+    document.getElementById('ps-err').style.display = 'block';
+    return;
+  }
+  const patient = {
+    id: DB.id(), role: 'patient',
+    firstName: document.getElementById('ps-fname').value.trim(),
+    lastName: document.getElementById('ps-lname').value.trim(),
+    email, phone: document.getElementById('ps-phone').value.trim(),
+    dob: document.getElementById('ps-dob').value,
+    blood: document.getElementById('ps-blood').value,
+    password: document.getElementById('ps-pass').value,
+    address: '', allergies: '', createdAt: new Date().toISOString()
+  };
+  DB.push('patients', patient);
+  document.getElementById('ps-err').style.display = 'none';
+  currentUser = { ...patient };
+  DB.set('session', currentUser);
+  closeModal('patientSignup');
+  showToast('✓ Account created! Welcome, ' + patient.firstName + '!');
+  renderHeader();
+  addNotification('Welcome to MediConnect!', 'Your account has been created successfully.', 'new');
+  updateStats();
+  showPatientDashboard();
+}
+
+function handleDoctorLogin(e) {
+  e.preventDefault();
+  const email = document.getElementById('dl-email').value.trim();
+  const pass = document.getElementById('dl-pass').value;
+  // Admin shortcut
+  if (email === 'admin@mediconnect.com' && pass === 'admin123') {
+    currentUser = { id: 'admin', role: 'admin', firstName: 'Admin', lastName: '', email };
+    DB.set('session', currentUser);
+    closeModal('doctorLogin');
+    showToast('✓ Welcome, Admin!');
+    renderHeader();
+    showAdminPanel();
+    return;
+  }
+  const doctor = DB.findBy('doctors', 'email', email);
+  if (!doctor || doctor.password !== pass) {
+    document.getElementById('dl-err').style.display = 'block';
+    return;
+  }
+  document.getElementById('dl-err').style.display = 'none';
+  currentUser = { ...doctor, role: 'doctor' };
+  DB.set('session', currentUser);
+  closeModal('doctorLogin');
+  showToast('✓ Welcome back, Dr. ' + doctor.lastName + '!');
+  renderHeader();
+  showDoctorDashboard();
+}
+
+function handleDoctorSignup(e) {
+  e.preventDefault();
+  const email = document.getElementById('ds-email').value.trim();
+  if (DB.findBy('doctors', 'email', email)) {
+    document.getElementById('ds-err').textContent = 'Email already registered.';
+    document.getElementById('ds-err').style.display = 'block';
+    return;
+  }
+  const doctor = {
+    id: DB.id(), role: 'doctor',
+    firstName: document.getElementById('ds-fname').value.trim(),
+    lastName: document.getElementById('ds-lname').value.trim(),
+    email, phone: document.getElementById('ds-phone').value.trim(),
+    regNo: document.getElementById('ds-reg').value.trim(),
+    specialization: document.getElementById('ds-spec').value,
+    hospital: document.getElementById('ds-hospital').value.trim(),
+    experience: document.getElementById('ds-exp').value,
+    password: document.getElementById('ds-pass').value,
+    bio: '', createdAt: new Date().toISOString()
+  };
+  DB.push('doctors', doctor);
+  document.getElementById('ds-err').style.display = 'none';
+  currentUser = { ...doctor };
+  DB.set('session', currentUser);
+  closeModal('doctorSignup');
+  showToast('✓ Registration successful! Welcome, Dr. ' + doctor.lastName + '!');
+  renderHeader();
+  addNotification('Registration Complete', 'Your doctor profile is now active.', 'new');
+  updateStats();
+  showDoctorDashboard();
+}
+
+function logout() {
+  currentUser = null;
+  DB.set('session', null);
+  closeAllDropdowns();
+  renderHeader();
+  showHomePage();
+  showToast('Signed out successfully.');
+}
+
+// ═══════════════════════════════════════════
+//  HEADER & NAVIGATION
+// ═══════════════════════════════════════════
+function renderHeader() {
+  const initEl = document.getElementById('avatarInitials');
+  const nameEl = document.getElementById('dropdownName');
+  const emailEl = document.getElementById('dropdownEmail');
+  const menuEl = document.getElementById('profileMenuItems');
+
+  if (!currentUser) {
+    initEl.textContent = '?';
+    nameEl.textContent = 'Guest';
+    emailEl.textContent = 'Not signed in';
+    menuEl.innerHTML = `
+      <button class="profile-menu-item" onclick="openModal('patientLogin');closeAllDropdowns()"><span class="material-symbols-outlined">personal_injury</span>Patient Login</button>
+      <button class="profile-menu-item" onclick="openModal('doctorLogin');closeAllDropdowns()"><span class="material-symbols-outlined">stethoscope</span>Doctor Login</button>`;
+    return;
+  }
+  const initials = (currentUser.firstName[0] + (currentUser.lastName ? currentUser.lastName[0] : '')).toUpperCase();
+  initEl.textContent = initials;
+  nameEl.textContent = currentUser.firstName + ' ' + (currentUser.lastName||'');
+  emailEl.textContent = currentUser.email;
+
+  if (currentUser.role === 'patient') {
+    menuEl.innerHTML = `
+      <button class="profile-menu-item" onclick="showPatientDashboard();closeAllDropdowns()"><span class="material-symbols-outlined">dashboard</span>Dashboard</button>
+      <button class="profile-menu-item" onclick="showPatientAppointments();closeAllDropdowns()"><span class="material-symbols-outlined">calendar_month</span>Appointments</button>
+      <button class="profile-menu-item" onclick="showPatientRecords();closeAllDropdowns()"><span class="material-symbols-outlined">folder_shared</span>Medical Records</button>
+      <button class="profile-menu-item" onclick="showPatientProfile();closeAllDropdowns()"><span class="material-symbols-outlined">manage_accounts</span>My Profile</button>
+      <button class="profile-menu-item danger" onclick="logout()"><span class="material-symbols-outlined">logout</span>Sign Out</button>`;
+  } else if (currentUser.role === 'doctor') {
+    menuEl.innerHTML = `
+      <button class="profile-menu-item" onclick="showDoctorDashboard();closeAllDropdowns()"><span class="material-symbols-outlined">dashboard</span>Dashboard</button>
+      <button class="profile-menu-item" onclick="showDoctorAppointments();closeAllDropdowns()"><span class="material-symbols-outlined">calendar_month</span>Schedule</button>
+      <button class="profile-menu-item" onclick="showDoctorPatients();closeAllDropdowns()"><span class="material-symbols-outlined">groups</span>Patients</button>
+      <button class="profile-menu-item" onclick="showDoctorProfile();closeAllDropdowns()"><span class="material-symbols-outlined">manage_accounts</span>My Profile</button>
+      <button class="profile-menu-item" onclick="openModal('addPrescription');closeAllDropdowns()"><span class="material-symbols-outlined">medication</span>Issue Prescription</button>
+      <button class="profile-menu-item danger" onclick="logout()"><span class="material-symbols-outlined">logout</span>Sign Out</button>`;
+  } else if (currentUser.role === 'admin') {
+    menuEl.innerHTML = `
+      <button class="profile-menu-item" onclick="showAdminPanel();closeAllDropdowns()"><span class="material-symbols-outlined">admin_panel_settings</span>Admin Panel</button>
+      <button class="profile-menu-item danger" onclick="logout()"><span class="material-symbols-outlined">logout</span>Sign Out</button>`;
+  }
+}
+
+// ═══════════════════════════════════════════
+//  PAGE ROUTING
+// ═══════════════════════════════════════════
+function showPage(pageId) {
+  document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+  const page = document.getElementById('page-' + pageId);
+  if (page) { page.classList.add('active'); window.scrollTo(0,0); }
+}
+
+function showHomePage() {
+  showPage('home');
+  setTimeout(() => {
+    const el = document.getElementById('hero');
+    if (el) el.scrollIntoView({behavior:'smooth'});
+  }, 50);
+}
+
+function showPatientDashboard() {
+  if (!currentUser || currentUser.role !== 'patient') { openModal('patientLogin'); return; }
+  showPage('patientDash');
+  renderPatientDashboard();
+}
+function showPatientAppointments() {
+  if (!currentUser || currentUser.role !== 'patient') { openModal('patientLogin'); return; }
+  showPage('patientAppts');
+  renderPatientAppointments('all');
+}
+function showPatientRecords() {
+  if (!currentUser || currentUser.role !== 'patient') { openModal('patientLogin'); return; }
+  showPage('patientRecords');
+  renderPatientRecords();
+}
+function showPatientProfile() {
+  if (!currentUser || currentUser.role !== 'patient') { openModal('patientLogin'); return; }
+  showPage('patientProfile');
+  renderPatientProfile();
+}
+function showDoctorDashboard() {
+  if (!currentUser || currentUser.role !== 'doctor') { openModal('doctorLogin'); return; }
+  showPage('doctorDash');
+  renderDoctorDashboard();
+}
+function showDoctorAppointments() {
+  if (!currentUser || currentUser.role !== 'doctor') { openModal('doctorLogin'); return; }
+  showPage('doctorAppts');
+  renderDoctorAppointments();
+}
+function showDoctorPatients() {
+  if (!currentUser || currentUser.role !== 'doctor') { openModal('doctorLogin'); return; }
+  showPage('doctorPatients');
+  renderDoctorPatients();
+}
+function showDoctorProfile() {
+  if (!currentUser || currentUser.role !== 'doctor') { openModal('doctorLogin'); return; }
+  showPage('doctorProfile');
+  renderDoctorProfile();
+}
+function showAdminPanel() {
+  if (!currentUser || currentUser.role !== 'admin') return;
+  showPage('admin');
+  switchAdminTab('patients', document.querySelector('.admin-tab'));
+}
+
+// ═══════════════════════════════════════════
+//  PATIENT DASHBOARD
+// ═══════════════════════════════════════════
+function renderPatientDashboard() {
+  const appts = DB.get('appointments').filter(a => a.patientId === currentUser.id);
+  const upcoming = appts.filter(a => a.status !== 'cancelled' && new Date(a.date) >= new Date());
+  const records = DB.get('records').filter(r => r.patientId === currentUser.id);
+  const prescriptions = records.filter(r => r.type === 'Prescription');
+
+  document.getElementById('patientDashTitle').textContent = 'Welcome back, ' + currentUser.firstName + '!';
+  document.getElementById('pdStatAppts').textContent = appts.length;
+  document.getElementById('pdStatUpcoming').textContent = upcoming.length;
+  document.getElementById('pdStatPrescriptions').textContent = prescriptions.length;
+  document.getElementById('pdStatRecords').textContent = records.length;
+
+  const container = document.getElementById('pdUpcomingAppts');
+  if (upcoming.length === 0) {
+    container.innerHTML = '<div class="empty-state"><span class="material-symbols-outlined">calendar_month</span>No upcoming appointments<br><small>Book one to get started!</small></div>';
+    return;
+  }
+  container.innerHTML = upcoming.slice(0,3).map(a => `
+    <div class="record-item">
+      <div class="record-avatar">${a.doctorName ? a.doctorName[0] : 'D'}</div>
+      <div class="record-info"><strong>${a.doctorName || 'Doctor'}</strong><span>${a.specialization} · ${formatDate(a.date)} ${a.time}</span></div>
+      <span class="record-badge ${a.status === 'confirmed' ? 'badge-confirmed' : 'badge-pending'}">${a.status}</span>
+    </div>`).join('');
+}
+
+function renderPatientAppointments(filter) {
+  let appts = DB.get('appointments').filter(a => a.patientId === currentUser.id);
+  if (filter !== 'all') appts = appts.filter(a => a.status === filter);
+  appts.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+  const container = document.getElementById('apptList');
+  if (appts.length === 0) {
+    container.innerHTML = '<div class="empty-state"><span class="material-symbols-outlined">calendar_month</span>No appointments found</div>';
+    return;
+  }
+  container.innerHTML = appts.map(a => {
+    const d = new Date(a.date);
+    const day = d.getDate() || '--';
+    const mon = d.toLocaleString('en',{month:'short'}) || '---';
+    const canCancel = a.status !== 'cancelled';
+    return `<div class="appt-card">
+      <div class="appt-date"><div class="appt-date-day">${day}</div><div class="appt-date-month">${mon}</div></div>
+      <div class="appt-info"><strong>${a.doctorName || 'To be assigned'}</strong><span>${a.specialization} · ${a.clinic} · ${a.time} · ${a.type}</span></div>
+      <span class="record-badge ${badgeClass(a.status)}">${a.status}</span>
+      <div class="appt-actions">
+        ${canCancel ? `<button class="btn-secondary appt-actions" onclick="cancelAppointment('${a.id}')" style="font-size:.8rem;padding:.45rem 1rem">Cancel</button>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterAppts(filter, btn) {
+  document.querySelectorAll('.appt-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderPatientAppointments(filter);
+}
+
+function cancelAppointment(id) {
+  DB.update('appointments', id, { status: 'cancelled' });
+  renderPatientAppointments('all');
+  renderPatientDashboard();
+  addNotification('Appointment Cancelled', 'Your appointment has been cancelled.', '');
+  showToast('Appointment cancelled.');
+}
+
+function renderPatientRecords() {
+  const records = DB.get('records').filter(r => r.patientId === currentUser.id);
+  const container = document.getElementById('recordsList');
+  if (records.length === 0) {
+    container.innerHTML = '<div class="empty-state"><span class="material-symbols-outlined">folder_shared</span>No medical records yet<br><small>Add your first record using the button above.</small></div>';
+    return;
+  }
+  const icons = { 'Lab Report': 'biotech', 'Prescription': 'medication', 'Discharge Summary': 'description', 'Radiology Report': 'radiology', 'Vaccination Record': 'vaccines', 'Other': 'folder' };
+  container.innerHTML = records.map(r => `
+    <div class="record-card">
+      <div class="record-type-icon"><span class="material-symbols-outlined">${icons[r.type]||'folder'}</span></div>
+      <div class="record-meta"><strong>${r.title}</strong><span>${r.type} · ${r.doctor || 'Unknown'} · ${formatDate(r.date)}</span>${r.notes ? `<div style="font-size:.78rem;margin-top:.3rem;color:var(--on-surface-variant)">${r.notes}</div>` : ''}</div>
+      <button class="download-btn" onclick="showToast('Downloading ${r.title}...')">
+        <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:middle">download</span> View
+      </button>
+    </div>`).join('');
+}
+
+function renderPatientProfile() {
+  const p = DB.findBy('patients', 'id', currentUser.id) || currentUser;
+  const initials = (p.firstName[0] + (p.lastName?p.lastName[0]:'')).toUpperCase();
+  document.getElementById('ppAvatarLg').textContent = initials;
+  document.getElementById('ppName').textContent = p.firstName + ' ' + p.lastName;
+  document.getElementById('ppRole').textContent = 'Patient · MediConnect';
+  document.getElementById('patientProfileFields').innerHTML = `
+    <div class="profile-field"><span class="profile-field-label">Full Name</span><span class="profile-field-value">${p.firstName} ${p.lastName}</span></div>
+    <div class="profile-field"><span class="profile-field-label">Email</span><span class="profile-field-value">${p.email}</span></div>
+    <div class="profile-field"><span class="profile-field-label">Phone</span><span class="profile-field-value">${p.phone||'—'}</span></div>
+    <div class="profile-field"><span class="profile-field-label">Date of Birth</span><span class="profile-field-value">${p.dob ? formatDate(p.dob) : '—'}</span></div>
+    <div class="profile-field"><span class="profile-field-label">Blood Group</span><span class="profile-field-value">${p.blood||'—'}</span></div>
+    <div class="profile-field"><span class="profile-field-label">Address</span><span class="profile-field-value">${p.address||'—'}</span></div>
+    <div class="profile-field"><span class="profile-field-label">Allergies</span><span class="profile-field-value">${p.allergies||'None reported'}</span></div>`;
+
+  const contacts = DB.get('emergencyContacts').filter(c => c.patientId === currentUser.id);
+  const ecContainer = document.getElementById('patientEmergencyContacts');
+  if (contacts.length === 0) {
+    ecContainer.innerHTML = '<div style="font-size:.85rem;color:var(--on-surface-variant);margin-bottom:.5rem">No emergency contacts added yet.</div>';
+  } else {
+    ecContainer.innerHTML = contacts.map(c => `
+      <div style="display:flex;align-items:center;gap:.8rem;padding:.75rem 0;border-bottom:1px solid var(--outline-variant)">
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--secondary-container);display:flex;align-items:center;justify-content:center;color:var(--primary);font-weight:700">${c.name[0]}</div>
+        <div style="flex:1"><strong style="display:block;font-size:.88rem;color:var(--primary)">${c.name}</strong><span style="font-size:.78rem;color:var(--on-surface-variant)">${c.relationship} · ${c.phone}</span></div>
+        <button onclick="removeEmergencyContact('${c.id}')" style="background:none;border:none;cursor:pointer;color:var(--error)"><span class="material-symbols-outlined" style="font-size:1.1rem">delete</span></button>
+      </div>`).join('');
+  }
+
+  // Pre-fill edit form
+  document.getElementById('ep-fname').value = p.firstName;
+  document.getElementById('ep-lname').value = p.lastName;
+  document.getElementById('ep-phone').value = p.phone||'';
+  document.getElementById('ep-dob').value = p.dob||'';
+  document.getElementById('ep-blood').value = p.blood||'';
+  document.getElementById('ep-address').value = p.address||'';
+  document.getElementById('ep-allergies').value = p.allergies||'';
+
+  // Render new sections
+  renderConsultationHistory();
+  renderProfileAccessLog();
+}
+
+// ═══════════════════════════════════════════
+//  DOCTOR DASHBOARD
+// ═══════════════════════════════════════════
+function renderDoctorDashboard() {
+  const appts = DB.get('appointments').filter(a => a.doctorId === currentUser.id);
+  const today = new Date().toISOString().slice(0,10);
+  const todayAppts = appts.filter(a => a.date === today && a.status !== 'cancelled');
+  const completed = appts.filter(a => a.status === 'confirmed');
+  const uniquePatients = [...new Set(appts.map(a => a.patientId))].length;
+
+  document.getElementById('doctorDashTitle').textContent = 'Welcome, Dr. ' + currentUser.lastName + '!';
+  document.getElementById('ddStatPatients').textContent = uniquePatients;
+  document.getElementById('ddStatToday').textContent = todayAppts.length;
+  document.getElementById('ddStatCompleted').textContent = completed.length;
+
+  // Today's appointments
+  const todayEl = document.getElementById('ddTodayAppts');
+  if (todayAppts.length === 0) {
+    todayEl.innerHTML = '<div class="empty-state"><span class="material-symbols-outlined">calendar_month</span>No appointments today</div>';
+  } else {
+    todayEl.innerHTML = todayAppts.map(a => `
+      <div class="record-item">
+        <div class="record-avatar">${a.patientName[0]}</div>
+        <div class="record-info"><strong>${a.patientName}</strong><span>${a.time} · ${a.type} · ${a.reason}</span></div>
+        <span class="record-badge ${badgeClass(a.status)}">${a.status}</span>
+      </div>`).join('');
+  }
+
+  // Recent patients
+  const recentEl = document.getElementById('ddRecentPatients');
+  const patients = DB.get('patients');
+  if (patients.length === 0) {
+    recentEl.innerHTML = '<div class="empty-state"><span class="material-symbols-outlined">groups</span>No patients registered yet</div>';
+  } else {
+    recentEl.innerHTML = patients.slice(-4).reverse().map(p => `
+      <div class="patient-list-item">
+        <div class="record-avatar">${p.firstName[0]}</div>
+        <div><div class="patient-name">${p.firstName} ${p.lastName}</div><div class="patient-meta">${p.email} · ${p.phone||'—'}</div></div>
+        <span class="record-badge badge-active" style="margin-left:auto">Registered</span>
+      </div>`).join('');
+  }
+}
+
+function renderDoctorAppointments() {
+  const appts = DB.get('appointments').filter(a => a.doctorId === currentUser.id);
+  appts.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+  const container = document.getElementById('doctorApptList');
+  if (appts.length === 0) {
+    container.innerHTML = '<div class="empty-state"><span class="material-symbols-outlined">calendar_month</span>No appointments booked yet</div>';
+    return;
+  }
+  container.innerHTML = appts.map(a => {
+    const d = new Date(a.date);
+    return `<div class="appt-card">
+      <div class="appt-date"><div class="appt-date-day">${d.getDate()||'--'}</div><div class="appt-date-month">${d.toLocaleString('en',{month:'short'})||'---'}</div></div>
+      <div class="appt-info"><strong>${a.patientName}</strong><span>${a.time} · ${a.clinic} · ${a.type}</span><div style="font-size:.78rem;margin-top:.2rem;color:var(--on-surface-variant)">${a.reason}</div></div>
+      <span class="record-badge ${badgeClass(a.status)}">${a.status}</span>
+      <div class="appt-actions">
+        ${a.status === 'pending' ? `<button class="btn-primary" onclick="updateApptStatus('${a.id}','confirmed')" style="font-size:.8rem;padding:.45rem 1rem">Confirm</button>` : ''}
+        ${a.status !== 'cancelled' ? `<button class="btn-secondary" onclick="updateApptStatus('${a.id}','cancelled')" style="font-size:.8rem;padding:.45rem 1rem">Cancel</button>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function updateApptStatus(id, status) {
+  DB.update('appointments', id, { status });
+  renderDoctorAppointments();
+  renderDoctorDashboard();
+  showToast('Appointment ' + status + '.');
+  addNotification('Appointment Updated', 'Status changed to: ' + status, '');
+}
+
+function renderDoctorPatients() {
+  const patients = DB.get('patients');
+  document.getElementById('patientCount').textContent = patients.length + ' registered patient(s)';
+  const container = document.getElementById('doctorPatientList');
+  if (patients.length === 0) {
+    container.innerHTML = '<div class="empty-state"><span class="material-symbols-outlined">groups</span>No patients registered yet</div>';
+    return;
+  }
+  // Log that doctor accessed patient registry
+  if (currentUser && currentUser.role === 'doctor') {
+    patients.forEach(p => {
+      const log = DB.get('profileAccessLog');
+      // Only log once per day per doctor-patient pair
+      const todayStr = new Date().toISOString().slice(0,10);
+      const alreadyLogged = log.some(e => e.viewerName && e.viewerName.includes(currentUser.lastName) && e.patientId === p.id && e.time && e.time.startsWith(todayStr));
+      if (!alreadyLogged) {
+        log.unshift({ id: DB.id(), viewerName: 'Dr. ' + currentUser.firstName + ' ' + currentUser.lastName, viewerRole: 'doctor', viewerSpec: currentUser.specialization || '', patientId: p.id, time: new Date().toISOString() });
+        DB.set('profileAccessLog', log.slice(0, 50));
+      }
+    });
+  }
+  container.innerHTML = patients.map(p => `
+    <div class="patient-list-item">
+      <div class="record-avatar">${p.firstName[0]}</div>
+      <div style="flex:1">
+        <div class="patient-name">${p.firstName} ${p.lastName}</div>
+        <div class="patient-meta">${p.email} · ${p.phone||'—'} · DOB: ${p.dob ? formatDate(p.dob) : '—'} · Blood: ${p.blood||'—'}</div>
+      </div>
+      <span class="record-badge badge-active">Patient</span>
+    </div>`).join('');
+}
+
+function renderDoctorProfile() {
+  const d = DB.findBy('doctors', 'id', currentUser.id) || currentUser;
+  const initials = (d.firstName[0] + (d.lastName?d.lastName[0]:'')).toUpperCase();
+  document.getElementById('dpAvatarLg').textContent = initials;
+  document.getElementById('dpName').textContent = 'Dr. ' + d.firstName + ' ' + d.lastName;
+  document.getElementById('dpSpec').textContent = d.specialization + ' · MediConnect';
+  document.getElementById('doctorProfileFields').innerHTML = `
+    <div class="profile-field"><span class="profile-field-label">Full Name</span><span class="profile-field-value">Dr. ${d.firstName} ${d.lastName}</span></div>
+    <div class="profile-field"><span class="profile-field-label">Email</span><span class="profile-field-value">${d.email}</span></div>
+    <div class="profile-field"><span class="profile-field-label">Phone</span><span class="profile-field-value">${d.phone||'—'}</span></div>
+    <div class="profile-field"><span class="profile-field-label">Reg. Number</span><span class="profile-field-value">${d.regNo||'—'}</span></div>
+    <div class="profile-field"><span class="profile-field-label">Specialization</span><span class="profile-field-value">${d.specialization||'—'}</span></div>
+    <div class="profile-field"><span class="profile-field-label">Hospital</span><span class="profile-field-value">${d.hospital||'—'}</span></div>
+    <div class="profile-field"><span class="profile-field-label">Experience</span><span class="profile-field-value">${d.experience ? d.experience + ' years' : '—'}</span></div>
+    <div class="profile-field"><span class="profile-field-label">Bio</span><span class="profile-field-value">${d.bio||'—'}</span></div>`;
+
+  document.getElementById('edp-fname').value = d.firstName;
+  document.getElementById('edp-lname').value = d.lastName;
+  document.getElementById('edp-phone').value = d.phone||'';
+  document.getElementById('edp-spec').value = d.specialization||'';
+  document.getElementById('edp-hospital').value = d.hospital||'';
+  document.getElementById('edp-bio').value = d.bio||'';
+}
+
+// ═══════════════════════════════════════════
+//  BOOKING
+// ═══════════════════════════════════════════
+function bookingNext(step) {
+  // Populate doctors on step 2
+  if (step === 1) {
+    const spec = document.getElementById('bk-spec').value;
+    const doctors = DB.get('doctors').filter(d => d.specialization === spec);
+    const sel = document.getElementById('bk-doctor');
+    sel.innerHTML = '<option value="">Select doctor</option>' +
+      (doctors.length ? doctors.map(d => `<option value="${d.id}|${d.firstName} ${d.lastName}">Dr. ${d.firstName} ${d.lastName} (${d.hospital||''})</option>`).join('') :
+      '<option value="">No doctors available for this specialization</option>');
+    // Set min date to today
+    document.getElementById('bk-date').min = new Date().toISOString().slice(0,10);
+  }
+  if (step === 2) {
+    // Show summary
+    const name = document.getElementById('bk-name').value;
+    const spec = document.getElementById('bk-spec').value;
+    const doctorVal = document.getElementById('bk-doctor').value;
+    const doctorName = doctorVal ? doctorVal.split('|')[1] : 'TBD';
+    const clinic = document.getElementById('bk-clinic').value;
+    const date = document.getElementById('bk-date').value;
+    const time = document.getElementById('bk-time').value;
+    document.getElementById('bookingSummary').innerHTML =
+      `<b>Patient:</b> ${name}<br><b>Specialization:</b> ${spec}<br><b>Doctor:</b> ${doctorName}<br><b>Clinic:</b> ${clinic}<br><b>Date & Time:</b> ${formatDate(date)} at ${time}`;
+  }
+  document.getElementById('booking-step-' + step).style.display = 'none';
+  document.getElementById('booking-step-' + (step+1)).style.display = 'block';
+  for (let i = 1; i <= 3; i++) {
+    const dot = document.getElementById('bstep-' + i);
+    if (i < step+1) { dot.classList.add('done'); dot.classList.remove('active'); }
+    else if (i === step+1) { dot.classList.add('active'); dot.classList.remove('done'); }
+    else { dot.classList.remove('active','done'); }
+  }
+}
+function bookingBack(step) {
+  document.getElementById('booking-step-' + step).style.display = 'none';
+  document.getElementById('booking-step-' + (step-1)).style.display = 'block';
+  for (let i = 1; i <= 3; i++) {
+    const dot = document.getElementById('bstep-' + i);
+    if (i < step-1) { dot.classList.add('done'); dot.classList.remove('active'); }
+    else if (i === step-1) { dot.classList.add('active'); dot.classList.remove('done'); }
+    else { dot.classList.remove('active','done'); }
+  }
+}
+function handleBooking(e) {
+  e.preventDefault();
+  const doctorVal = document.getElementById('bk-doctor').value;
+  const doctorParts = doctorVal ? doctorVal.split('|') : ['',''];
+  const appt = {
+    id: DB.id(),
+    patientId: currentUser ? currentUser.id : 'guest',
+    patientName: document.getElementById('bk-name').value,
+    patientPhone: document.getElementById('bk-phone').value,
+    doctorId: doctorParts[0],
+    doctorName: doctorParts[1] || 'To be assigned',
+    specialization: document.getElementById('bk-spec').value,
+    clinic: document.getElementById('bk-clinic').value,
+    date: document.getElementById('bk-date').value,
+    time: document.getElementById('bk-time').value,
+    reason: document.getElementById('bk-reason').value,
+    type: document.getElementById('bk-type').value,
+    status: 'pending',
+    createdAt: new Date().toISOString()
+  };
+  DB.push('appointments', appt);
+  closeModal('bookAppointment');
+  showToast('✓ Appointment booked! Confirmation sent via SMS & email.');
+  addNotification('Appointment Booked', `Your appointment for ${appt.specialization} on ${formatDate(appt.date)} at ${appt.time} has been booked.`, '');
+
+  // Reset form
+  setTimeout(() => {
+    document.getElementById('bookingForm').reset();
+    document.getElementById('booking-step-1').style.display = 'block';
+    document.getElementById('booking-step-2').style.display = 'none';
+    document.getElementById('booking-step-3').style.display = 'none';
+    for (let i = 1; i <= 3; i++) {
+      const dot = document.getElementById('bstep-' + i);
+      dot.className = 'step-dot' + (i === 1 ? ' active' : '');
+    }
+  }, 300);
+
+  if (currentUser && currentUser.role === 'patient') {
+    renderPatientDashboard();
+  }
+}
+
+// ═══════════════════════════════════════════
+//  RECORDS
+// ═══════════════════════════════════════════
+function handleAddRecord(e) {
+  e.preventDefault();
+  const record = {
+    id: DB.id(),
+    patientId: currentUser.id,
+    type: document.getElementById('rec-type').value,
+    title: document.getElementById('rec-title').value,
+    doctor: document.getElementById('rec-doctor').value,
+    date: document.getElementById('rec-date').value,
+    notes: document.getElementById('rec-notes').value,
+    createdAt: new Date().toISOString()
+  };
+  DB.push('records', record);
+  closeModal('addRecord');
+  showToast('✓ Medical record added successfully!');
+  renderPatientRecords();
+  renderPatientDashboard();
+  document.getElementById('modal-addRecord').querySelector('form').reset();
+}
+
+// ═══════════════════════════════════════════
+//  PROFILE EDITING
+// ═══════════════════════════════════════════
+function handleEditPatientProfile(e) {
+  e.preventDefault();
+  const updates = {
+    firstName: document.getElementById('ep-fname').value.trim(),
+    lastName: document.getElementById('ep-lname').value.trim(),
+    phone: document.getElementById('ep-phone').value.trim(),
+    dob: document.getElementById('ep-dob').value,
+    blood: document.getElementById('ep-blood').value,
+    address: document.getElementById('ep-address').value.trim(),
+    allergies: document.getElementById('ep-allergies').value.trim()
+  };
+  DB.update('patients', currentUser.id, updates);
+  currentUser = { ...currentUser, ...updates };
+  DB.set('session', currentUser);
+  closeModal('editPatientProfile');
+  showToast('✓ Profile updated successfully!');
+  renderHeader();
+  renderPatientProfile();
+}
+
+function handleEditDoctorProfile(e) {
+  e.preventDefault();
+  const updates = {
+    firstName: document.getElementById('edp-fname').value.trim(),
+    lastName: document.getElementById('edp-lname').value.trim(),
+    phone: document.getElementById('edp-phone').value.trim(),
+    specialization: document.getElementById('edp-spec').value,
+    hospital: document.getElementById('edp-hospital').value.trim(),
+    bio: document.getElementById('edp-bio').value.trim()
+  };
+  DB.update('doctors', currentUser.id, updates);
+  currentUser = { ...currentUser, ...updates };
+  DB.set('session', currentUser);
+  closeModal('editDoctorProfile');
+  showToast('✓ Profile updated successfully!');
+  renderHeader();
+  renderDoctorProfile();
+}
+
+// ═══════════════════════════════════════════
+//  EMERGENCY CONTACTS
+// ═══════════════════════════════════════════
+function handleAddEmergencyContact(e) {
+  e.preventDefault();
+  const contact = {
+    id: DB.id(),
+    patientId: currentUser.id,
+    name: document.getElementById('ec-name').value.trim(),
+    relationship: document.getElementById('ec-rel').value,
+    phone: document.getElementById('ec-phone').value.trim()
+  };
+  DB.push('emergencyContacts', contact);
+  closeModal('addEmergencyContact');
+  showToast('✓ Emergency contact added!');
+  renderPatientProfile();
+  document.getElementById('modal-addEmergencyContact').querySelector('form').reset();
+}
+
+function removeEmergencyContact(id) {
+  DB.remove('emergencyContacts', id);
+  renderPatientProfile();
+  showToast('Emergency contact removed.');
+}
+
+// ═══════════════════════════════════════════
+//  SOS
+// ═══════════════════════════════════════════
+function renderSOSModal() {
+  const contacts = currentUser ? DB.get('emergencyContacts').filter(c => c.patientId === currentUser.id) : [];
+  const container = document.getElementById('emergencyContactsSOS');
+  if (contacts.length > 0) {
+    container.innerHTML = '<div style="font-size:.78rem;font-weight:700;color:var(--on-surface-variant);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem">Your Emergency Contacts</div>' +
+      contacts.map(c => `
+        <div class="sos-contact" onclick="triggerSOS('contact','${c.name}','${c.phone}')">
+          <div class="sos-contact-icon"><span class="material-symbols-outlined">contact_emergency</span></div>
+          <div class="sos-contact-info"><strong>${c.name}</strong><span>${c.relationship} · ${c.phone}</span></div>
+        </div>`).join('');
+  } else {
+    container.innerHTML = '';
+  }
+}
+
+function triggerSOS(type, name, phone) {
+  if (type === 'ambulance') {
+    showToast('🚑 Ambulance dispatched! ETA: 8 minutes. Stay calm.');
+    addNotification('SOS Sent', 'Ambulance has been dispatched to your location.', 'sos');
+  } else if (type === 'hospital') {
+    showToast('🏥 Nearest hospital notified — Apollo Clinic 2.3 km away.');
+    addNotification('Hospital Alerted', 'Apollo Clinic has been notified and is preparing for your arrival.', 'sos');
+  } else if (type === 'contact') {
+    showToast(`📞 Alert sent to ${name} (${phone})!`);
+    addNotification('Emergency Alert Sent', `${name} has been notified of your emergency.`, 'sos');
+  } else if (type === 'all') {
+    showToast('🚨 ALL emergency contacts alerted! Ambulance dispatched!');
+    addNotification('SOS Alert Triggered', 'All emergency contacts and services have been alerted.', 'sos');
+  }
+}
+
+// ═══════════════════════════════════════════
+//  PRESCRIPTIONS
+// ═══════════════════════════════════════════
+function handleAddPrescription(e) {
+  e.preventDefault();
+  const prescription = {
+    id: DB.id(),
+    doctorId: currentUser.id,
+    doctorName: 'Dr. ' + currentUser.firstName + ' ' + currentUser.lastName,
+    patientName: document.getElementById('presc-patient').value.trim(),
+    diagnosis: document.getElementById('presc-diagnosis').value.trim(),
+    medications: document.getElementById('presc-meds').value.trim(),
+    instructions: document.getElementById('presc-notes').value.trim(),
+    date: new Date().toISOString().slice(0,10),
+    createdAt: new Date().toISOString()
+  };
+  DB.push('prescriptions', prescription);
+  closeModal('addPrescription');
+  showToast('✓ Prescription issued successfully!');
+  document.getElementById('modal-addPrescription').querySelector('form').reset();
+}
+
+// ═══════════════════════════════════════════
+//  ADMIN
+// ═══════════════════════════════════════════
+function switchAdminTab(tab, btn) {
+  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const content = document.getElementById('adminContent');
+  if (tab === 'patients') {
+    const patients = DB.get('patients');
+    if (patients.length === 0) { content.innerHTML = '<div class="empty-state"><span class="material-symbols-outlined">groups</span>No patients registered</div>'; return; }
+    content.innerHTML = `<div class="table-wrap"><table class="data-table">
+      <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Phone</th><th>DOB</th><th>Blood</th><th>Joined</th></tr></thead>
+      <tbody>${patients.map((p,i) => `<tr><td>${i+1}</td><td>${p.firstName} ${p.lastName}</td><td>${p.email}</td><td>${p.phone||'—'}</td><td>${p.dob ? formatDate(p.dob) : '—'}</td><td>${p.blood||'—'}</td><td>${formatDate(p.createdAt)}</td></tr>`).join('')}</tbody>
+    </table></div>`;
+  } else if (tab === 'doctors') {
+    const doctors = DB.get('doctors');
+    if (doctors.length === 0) { content.innerHTML = '<div class="empty-state"><span class="material-symbols-outlined">stethoscope</span>No doctors registered</div>'; return; }
+    content.innerHTML = `<div class="table-wrap"><table class="data-table">
+      <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Specialization</th><th>Hospital</th><th>Reg No</th><th>Experience</th></tr></thead>
+      <tbody>${doctors.map((d,i) => `<tr><td>${i+1}</td><td>Dr. ${d.firstName} ${d.lastName}</td><td>${d.email}</td><td>${d.specialization||'—'}</td><td>${d.hospital||'—'}</td><td>${d.regNo||'—'}</td><td>${d.experience ? d.experience + ' yrs' : '—'}</td></tr>`).join('')}</tbody>
+    </table></div>`;
+  } else if (tab === 'appointments') {
+    const appts = DB.get('appointments');
+    if (appts.length === 0) { content.innerHTML = '<div class="empty-state"><span class="material-symbols-outlined">calendar_month</span>No appointments booked</div>'; return; }
+    content.innerHTML = `<div class="table-wrap"><table class="data-table">
+      <thead><tr><th>#</th><th>Patient</th><th>Doctor</th><th>Specialization</th><th>Date</th><th>Time</th><th>Status</th></tr></thead>
+      <tbody>${appts.map((a,i) => `<tr><td>${i+1}</td><td>${a.patientName}</td><td>${a.doctorName||'TBD'}</td><td>${a.specialization}</td><td>${formatDate(a.date)}</td><td>${a.time}</td><td><span class="record-badge ${badgeClass(a.status)}">${a.status}</span></td></tr>`).join('')}</tbody>
+    </table></div>`;
+  }
+}
+
+// ═══════════════════════════════════════════
+//  NOTIFICATIONS
+// ═══════════════════════════════════════════
+function addNotification(title, msg, type) {
+  const notifs = DB.get('notifications');
+  notifs.unshift({ id: DB.id(), title, msg, time: new Date().toISOString(), read: false, type });
+  DB.set('notifications', notifs.slice(0,20));
+  renderNotifications();
+}
+
+function renderNotifications() {
+  const notifs = DB.get('notifications');
+  const container = document.getElementById('notifList');
+  if (notifs.length === 0) {
+    container.innerHTML = '<div style="padding:1rem 1.25rem;font-size:.83rem;color:var(--on-surface-variant)">No notifications</div>';
+  } else {
+    container.innerHTML = notifs.slice(0,6).map(n => `
+      <div class="notif-item" onclick="markNotifRead('${n.id}')">
+        <div class="notif-dot ${n.read ? 'read' : ''}"></div>
+        <div><div class="notif-text"><strong>${n.title}</strong><br>${n.msg}</div><div class="notif-time">${timeAgo(n.time)}</div></div>
+      </div>`).join('');
+  }
+  updateBadge();
+}
+
+function markNotifRead(id) {
+  const notifs = DB.get('notifications');
+  const n = notifs.find(n => n.id === id);
+  if (n) n.read = true;
+  DB.set('notifications', notifs);
+  renderNotifications();
+}
+
+function markAllRead() {
+  const notifs = DB.get('notifications');
+  notifs.forEach(n => n.read = true);
+  DB.set('notifications', notifs);
+  renderNotifications();
+  showToast('All notifications marked as read.');
+}
+
+function updateBadge() {
+  const unread = DB.get('notifications').filter(n => !n.read).length;
+  document.getElementById('notifBadge').style.display = unread > 0 ? 'block' : 'none';
+}
+
+// ═══════════════════════════════════════════
+//  STATS (hero section)
+// ═══════════════════════════════════════════
+function updateStats() {
+  const patients = DB.get('patients').length;
+  const doctors = DB.get('doctors').length;
+  animateCount('statPatients', patients);
+  animateCount('statDoctors', doctors);
+}
+
+function animateCount(id, target) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  let cur = 0;
+  const step = Math.max(1, Math.floor(target / 30));
+  const timer = setInterval(() => {
+    cur = Math.min(cur + step, target);
+    el.textContent = cur + (target >= 1000 ? '+' : '');
+    if (cur >= target) clearInterval(timer);
+  }, 40);
+}
+
+// ═══════════════════════════════════════════
+//  MODAL SYSTEM
+// ═══════════════════════════════════════════
+function openModal(id) {
+  closeAllDropdowns();
+  closeHelp();
+  if (id === 'sos') renderSOSModal();
+  if (id === 'editPatientProfile' && currentUser) renderPatientProfile();
+  document.getElementById('modal-' + id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+  document.getElementById('modal-' + id).classList.remove('open');
+  if (!document.querySelector('.modal-overlay.open')) document.body.style.overflow = '';
+}
+function overlayClose(e, overlay) {
+  if (e.target === overlay) {
+    overlay.classList.remove('open');
+    if (!document.querySelector('.modal-overlay.open')) document.body.style.overflow = '';
+  }
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
+    document.body.style.overflow = '';
+    closeAllDropdowns();
+    closeHelp();
+  }
+});
+
+// ═══════════════════════════════════════════
+//  DROPDOWNS
+// ═══════════════════════════════════════════
+document.getElementById('notifBtn').addEventListener('click', function(e) {
+  e.stopPropagation();
+  closeHelp();
+  document.getElementById('profileDropdown').classList.remove('open');
+  document.getElementById('notifDropdown').classList.toggle('open');
+});
+document.getElementById('avatarBtn').addEventListener('click', function(e) {
+  e.stopPropagation();
+  closeHelp();
+  document.getElementById('notifDropdown').classList.remove('open');
+  document.getElementById('profileDropdown').classList.toggle('open');
+});
+document.getElementById('helpBtn').addEventListener('click', function(e) {
+  e.stopPropagation();
+  closeAllDropdowns();
+  document.getElementById('helpPanel').classList.toggle('open');
+});
+function closeHelp() { document.getElementById('helpPanel').classList.remove('open'); }
+function closeAllDropdowns() {
+  document.getElementById('notifDropdown').classList.remove('open');
+  document.getElementById('profileDropdown').classList.remove('open');
+}
+document.addEventListener('click', () => { closeAllDropdowns(); closeHelp(); });
+document.querySelectorAll('.notif-dropdown,.profile-dropdown,.help-panel').forEach(el => el.addEventListener('click', e => e.stopPropagation()));
+
+// ═══════════════════════════════════════════
+//  MOBILE NAV
+// ═══════════════════════════════════════════
+let menuOpen = false;
+function toggleMobileMenu() {
+  menuOpen = !menuOpen;
+  const mn = document.getElementById('mobileNav');
+  mn.style.display = menuOpen ? 'flex' : 'none';
+  const hb = document.getElementById('hamburger');
+  hb.children[0].style.transform = menuOpen ? 'rotate(45deg) translate(5px,5px)' : '';
+  hb.children[1].style.opacity = menuOpen ? '0' : '1';
+  hb.children[2].style.transform = menuOpen ? 'rotate(-45deg) translate(5px,-5px)' : '';
+}
+
+function navClick(el, sectionId) {
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  el.classList.add('active');
+  setTimeout(() => {
+    const target = document.getElementById(sectionId);
+    if (target) target.scrollIntoView({behavior:'smooth'});
+  }, 50);
+}
+
+// ═══════════════════════════════════════════
+//  TOAST
+// ═══════════════════════════════════════════
+function showToast(msg) {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = msg;
+  container.appendChild(toast);
+  requestAnimationFrame(() => requestAnimationFrame(() => toast.classList.add('show')));
+  setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 350); }, 2800);
+}
+
+// ═══════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════
+function badgeClass(status) {
+  return { confirmed: 'badge-confirmed', pending: 'badge-pending', cancelled: 'badge-cancelled', active: 'badge-active' }[status] || '';
+}
+function formatDate(d) {
+  if (!d) return '—';
+  try {
+    return new Date(d).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+  } catch { return d; }
+}
+function timeAgo(iso) {
+  const diff = Date.now() - new Date(iso).getTime();
+  const mins = Math.floor(diff/60000);
+  if (mins < 1) return 'Just now';
+  if (mins < 60) return mins + 'm ago';
+  const hrs = Math.floor(mins/60);
+  if (hrs < 24) return hrs + 'h ago';
+  return Math.floor(hrs/24) + 'd ago';
+}
+
+// ═══════════════════════════════════════════
+//  SCROLL FADE IN
+// ═══════════════════════════════════════════
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// ═══════════════════════════════════════════
+//  SERVICE HANDLERS
+// ═══════════════════════════════════════════
+function handleVideoConsult() {
+  if (!currentUser) { openModal('patientLogin'); showToast('Please log in to start a video consultation.'); return; }
+  if (currentUser.role === 'patient') {
+    openModal('bookAppointment');
+    setTimeout(() => {
+      const typeSelect = document.getElementById('bk-type');
+      if (typeSelect) typeSelect.value = 'Video Call';
+    }, 200);
+    showToast('Select "Video Call" as consultation type!');
+  } else { showToast('Video consultation available for patients.'); }
+}
+function handlePrescriptions() {
+  if (!currentUser) { openModal('patientLogin'); showToast('Log in to view your prescriptions.'); return; }
+  if (currentUser.role === 'patient') { showPatientRecords(); showToast('Viewing your prescriptions & medical records.'); }
+  else if (currentUser.role === 'doctor') { openModal('addPrescription'); }
+}
+function handleLabTests() {
+  if (!currentUser) { openModal('patientLogin'); showToast('Please log in to book a lab test.'); return; }
+  openModal('bookAppointment');
+  setTimeout(() => {
+    const spec = document.getElementById('bk-spec');
+    if (spec) { spec.value = 'General Medicine'; }
+  }, 200);
+  showToast('Select your preferred lab test department.');
+}
+function handleHealthRecords() {
+  if (!currentUser) { openModal('patientLogin'); showToast('Log in to access your health records.'); return; }
+  if (currentUser.role === 'patient') showPatientRecords();
+  else showToast('Health records available in your patient dashboard.');
+}
+
+// ═══════════════════════════════════════════
+//  DOCTOR AVATAR HELPER
+// ═══════════════════════════════════════════
+const DOCTOR_PHOTOS = {
+  'Cardiology': 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=80&q=80',
+  'Neurology': 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=80&q=80',
+  'Orthopaedics': 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=80&q=80',
+  'General Medicine': 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=80&q=80',
+  'Paediatrics': 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=80&q=80',
+  'Dermatology': 'https://images.unsplash.com/photo-1651008376811-b90baee60c1f?w=80&q=80',
+  'Psychiatry': 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=80&q=80',
+  'ENT': 'https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=80&q=80',
+  'Ophthalmology': 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=80&q=80',
+  'Oncology': 'https://images.unsplash.com/photo-1666214280557-f1b5022eb634?w=80&q=80',
+  'default': 'https://images.unsplash.com/photo-1584467735871-8e85353a8413?w=80&q=80'
+};
+
+function getDoctorPhoto(spec) {
+  return DOCTOR_PHOTOS[spec] || DOCTOR_PHOTOS['default'];
+}
+
+// ═══════════════════════════════════════════
+//  CONSULTATION HISTORY
+// ═══════════════════════════════════════════
+function renderConsultationHistory() {
+  if (!currentUser || currentUser.role !== 'patient') return;
+  const allAppts = DB.get('appointments').filter(a => a.patientId === currentUser.id);
+  // Show past (confirmed/cancelled) sorted by date desc
+  const past = allAppts.filter(a => {
+    const apptDate = new Date(a.date);
+    const today = new Date(); today.setHours(0,0,0,0);
+    return apptDate < today || a.status === 'cancelled';
+  }).sort((a,b) => new Date(b.date) - new Date(a.date));
+
+  const container = document.getElementById('patientConsultationHistory');
+  if (!container) return;
+  if (past.length === 0) {
+    container.innerHTML = '<div class="empty-state"><span class="material-symbols-outlined">history</span>No past consultations yet<br><small>Completed appointments will appear here.</small></div>';
+    return;
+  }
+
+  // Look up doctor details
+  const doctors = DB.get('doctors');
+  container.innerHTML = past.slice(0, 5).map(a => {
+    const doc = doctors.find(d => d.id === a.doctorId);
+    const spec = a.specialization || 'General';
+    const photo = getDoctorPhoto(spec);
+    const docName = a.doctorName ? 'Dr. ' + a.doctorName : 'Unknown Doctor';
+    const hospital = doc ? (doc.hospital || a.clinic || '—') : (a.clinic || '—');
+    const exp = doc ? (doc.experience ? doc.experience + ' yrs exp' : '') : '';
+    const statusBadge = a.status === 'cancelled' ? 'badge-cancelled' : 'badge-confirmed';
+    const statusLabel = a.status === 'cancelled' ? 'Cancelled' : 'Completed';
+    return `<div class="consult-card">
+      <div class="consult-doc-avatar"><img src="${photo}" alt="${docName}" onerror="this.parentElement.className='consult-doc-avatar initials';this.parentElement.textContent='${(a.doctorName||'D')[0]}'"/></div>
+      <div class="consult-info">
+        <div class="consult-doc-name">${docName}</div>
+        <div class="consult-doc-spec">${spec}${exp ? ' · ' + exp : ''}</div>
+        <div class="consult-detail">
+          <span class="material-symbols-outlined" style="font-size:.85rem;vertical-align:middle">location_on</span> ${hospital}<br>
+          <span class="material-symbols-outlined" style="font-size:.85rem;vertical-align:middle">calendar_month</span> ${formatDate(a.date)} at ${a.time || '—'} &nbsp;·&nbsp; ${a.type || 'In-person'}<br>
+          ${a.reason ? `<span class="material-symbols-outlined" style="font-size:.85rem;vertical-align:middle">notes</span> <em>${a.reason}</em>` : ''}
+        </div>
+      </div>
+      <span class="record-badge ${statusBadge}" style="margin-top:.2rem">${statusLabel}</span>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════
+//  PROFILE ACCESS LOG (Security)
+// ═══════════════════════════════════════════
+function logProfileAccess(viewerName, viewerRole, viewerSpec) {
+  const log = DB.get('profileAccessLog');
+  log.unshift({
+    id: DB.id(),
+    viewerName,
+    viewerRole,
+    viewerSpec: viewerSpec || '',
+    patientId: currentUser ? currentUser.id : '',
+    time: new Date().toISOString()
+  });
+  DB.set('profileAccessLog', log.slice(0, 50)); // keep last 50
+}
+
+function renderProfileAccessLog() {
+  if (!currentUser || currentUser.role !== 'patient') return;
+  const log = DB.get('profileAccessLog').filter(e => e.patientId === currentUser.id);
+  const container = document.getElementById('patientProfileAccessLog');
+  if (!container) return;
+
+  if (log.length === 0) {
+    container.innerHTML = '<div class="empty-state"><span class="material-symbols-outlined">shield</span>No access events recorded yet.<br><small>Doctor profile views will appear here for your security.</small></div>';
+    return;
+  }
+
+  container.innerHTML = log.slice(0, 8).map(e => {
+    const isDoctor = e.viewerRole === 'doctor';
+    const isSystem = e.viewerRole === 'system';
+    const iconClass = isDoctor ? 'doctor' : isSystem ? 'system' : 'alert';
+    const icon = isDoctor ? 'stethoscope' : isSystem ? 'manage_accounts' : 'visibility';
+    return `<div class="access-log-item">
+      <div class="access-log-icon ${iconClass}"><span class="material-symbols-outlined" style="font-size:1.1rem">${icon}</span></div>
+      <div class="access-log-info">
+        <strong>${e.viewerName}${e.viewerSpec ? ' · ' + e.viewerSpec : ''}</strong>
+        <span>${isDoctor ? 'Doctor accessed your profile' : isSystem ? 'System event' : 'Profile viewed'}</span>
+      </div>
+      <div class="access-log-time">${timeAgo(e.time)}</div>
+    </div>`;
+  }).join('');
+}
+
+// Log self access on profile open (so it's visible)
+const _origShowPatientProfile = typeof showPatientProfile === 'function' ? showPatientProfile : null;
+
+// ═══════════════════════════════════════════
+//  SEED EXTRA DEMO DATA
+// ═══════════════════════════════════════════
+(function seedConsultationAndLog() {
+  // Only seed if demo patient exists and no extra seed flag
+  if (DB.getObj('extraSeedDone')) return;
+  const patient = DB.findBy('patients', 'email', 'patient@demo.com');
+  if (!patient) return;
+
+  // Past appointments (consultations)
+  const pastAppts = [
+    { id: DB.id(), patientId: patient.id, patientName:'Ananya Reddy', patientPhone:'+91 98765 43210', doctorId:'demo-doctor', doctorName:'Vikram Mehta', specialization:'Cardiology', clinic:'Apollo Clinic — Banjara Hills', date:'2025-11-10', time:'10:00 AM', reason:'Chest pain evaluation', type:'In-person', status:'confirmed', createdAt:'2025-11-10T10:00:00.000Z' },
+    { id: DB.id(), patientId: patient.id, patientName:'Ananya Reddy', patientPhone:'+91 98765 43210', doctorId:'doc-neuro', doctorName:'Priya Nair', specialization:'Neurology', clinic:'Care Hospitals — Nampally', date:'2025-12-05', time:'02:00 PM', reason:'Recurring migraines', type:'Video Call', status:'confirmed', createdAt:'2025-12-05T14:00:00.000Z' },
+    { id: DB.id(), patientId: patient.id, patientName:'Ananya Reddy', patientPhone:'+91 98765 43210', doctorId:'doc-derm', doctorName:'Suresh Kumar', specialization:'Dermatology', clinic:'Yashoda Hospitals — Secunderabad', date:'2026-01-20', time:'11:00 AM', reason:'Skin allergy follow-up', type:'In-person', status:'cancelled', createdAt:'2026-01-20T11:00:00.000Z' },
+    { id: DB.id(), patientId: patient.id, patientName:'Ananya Reddy', patientPhone:'+91 98765 43210', doctorId:'doc-gen', doctorName:'Meena Rao', specialization:'General Medicine', clinic:'Apollo Clinic — Banjara Hills', date:'2026-02-14', time:'09:00 AM', reason:'Annual health checkup', type:'In-person', status:'confirmed', createdAt:'2026-02-14T09:00:00.000Z' }
+  ];
+
+  // Add extra doctors
+  const extraDoctors = [
+    { id:'doc-neuro', role:'doctor', firstName:'Priya', lastName:'Nair', email:'priya.nair@demo.com', phone:'+91 87654 11111', regNo:'MCI-223344', specialization:'Neurology', hospital:'Care Hospitals — Nampally', experience:'8', password:'demo1234', bio:'Expert in headache disorders and epilepsy management.', createdAt: new Date().toISOString() },
+    { id:'doc-derm', role:'doctor', firstName:'Suresh', lastName:'Kumar', email:'suresh.kumar@demo.com', phone:'+91 87654 22222', regNo:'MCI-334455', specialization:'Dermatology', hospital:'Yashoda Hospitals — Secunderabad', experience:'15', password:'demo1234', bio:'Specialist in skin conditions and cosmetic dermatology.', createdAt: new Date().toISOString() },
+    { id:'doc-gen', role:'doctor', firstName:'Meena', lastName:'Rao', email:'meena.rao@demo.com', phone:'+91 87654 33333', regNo:'MCI-445566', specialization:'General Medicine', hospital:'Apollo Clinic — Banjara Hills', experience:'10', password:'demo1234', bio:'General physician with expertise in preventive care.', createdAt: new Date().toISOString() }
+  ];
+
+  // Push extra doctors if not already
+  extraDoctors.forEach(d => {
+    const existing = DB.findBy('doctors', 'id', d.id);
+    if (!existing) DB.push('doctors', d);
+  });
+
+  pastAppts.forEach(a => DB.push('appointments', a));
+
+  // Seed access log
+  const accessEvents = [
+    { id: DB.id(), viewerName: 'Dr. Vikram Mehta', viewerRole: 'doctor', viewerSpec: 'Cardiology', patientId: patient.id, time: new Date(Date.now() - 2*60*60*1000).toISOString() },
+    { id: DB.id(), viewerName: 'Dr. Priya Nair', viewerRole: 'doctor', viewerSpec: 'Neurology', patientId: patient.id, time: new Date(Date.now() - 24*60*60*1000).toISOString() },
+    { id: DB.id(), viewerName: 'Dr. Meena Rao', viewerRole: 'doctor', viewerSpec: 'General Medicine', patientId: patient.id, time: new Date(Date.now() - 3*24*60*60*1000).toISOString() },
+    { id: DB.id(), viewerName: 'System Auto-Backup', viewerRole: 'system', viewerSpec: '', patientId: patient.id, time: new Date(Date.now() - 5*24*60*60*1000).toISOString() },
+    { id: DB.id(), viewerName: 'Dr. Suresh Kumar', viewerRole: 'doctor', viewerSpec: 'Dermatology', patientId: patient.id, time: new Date(Date.now() - 7*24*60*60*1000).toISOString() }
+  ];
+  const existingLog = DB.get('profileAccessLog');
+  if (existingLog.length === 0) DB.set('profileAccessLog', accessEvents);
+
+  DB.set('extraSeedDone', true);
+})();
+renderHeader();
+renderNotifications();
+updateStats();
+
+// If session exists, redirect to dashboard
+if (currentUser) {
+  if (currentUser.role === 'patient') showPatientDashboard();
+  else if (currentUser.role === 'doctor') showDoctorDashboard();
+  else if (currentUser.role === 'admin') showAdminPanel();
+}
+
+// Seed some demo data if empty
+(function seedDemoData() {
+  if (DB.get('patients').length > 0) return; // already seeded
+  // Demo patient
+  const patient = { id: 'demo-patient', role:'patient', firstName:'Ananya', lastName:'Reddy', email:'patient@demo.com', phone:'+91 98765 43210', dob:'1995-06-15', blood:'O+', password:'demo1234', address:'Banjara Hills, Hyderabad', allergies:'Penicillin', createdAt: new Date().toISOString() };
+  DB.push('patients', patient);
+  // Demo doctor
+  const doctor = { id: 'demo-doctor', role:'doctor', firstName:'Vikram', lastName:'Mehta', email:'doctor@demo.com', phone:'+91 87654 32109', regNo:'MCI-123456', specialization:'Cardiology', hospital:'Apollo Clinic — Banjara Hills', experience:'12', password:'demo1234', bio:'Experienced cardiologist specializing in interventional cardiology.', createdAt: new Date().toISOString() };
+  DB.push('doctors', doctor);
+  // Demo appointment
+  const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate()+1);
+  DB.push('appointments', { id:DB.id(), patientId:'demo-patient', patientName:'Ananya Reddy', patientPhone:'+91 98765 43210', doctorId:'demo-doctor', doctorName:'Vikram Mehta', specialization:'Cardiology', clinic:'Apollo Clinic — Banjara Hills', date:tomorrow.toISOString().slice(0,10), time:'10:00 AM', reason:'Routine cardiac checkup', type:'In-person', status:'confirmed', createdAt:new Date().toISOString() });
+  // Demo records
+  DB.push('records', { id:DB.id(), patientId:'demo-patient', type:'Lab Report', title:'Lipid Profile Report', doctor:'Dr. Vikram Mehta · Apollo Clinic', date:'2025-01-15', notes:'Cholesterol levels slightly elevated. Follow-up in 3 months.', createdAt:new Date().toISOString() });
+  DB.push('records', { id:DB.id(), patientId:'demo-patient', type:'Prescription', title:'Cardiac Medications', doctor:'Dr. Vikram Mehta · Apollo Clinic', date:'2025-01-15', notes:'Atorvastatin 10mg - once daily at night.', createdAt:new Date().toISOString() });
+  // Demo emergency contact
+  DB.push('emergencyContacts', { id:DB.id(), patientId:'demo-patient', name:'Suresh Reddy', relationship:'Parent', phone:'+91 99887 76655' });
+  // Notification
+  addNotification('Welcome to MediConnect Demo', 'Login with patient@demo.com / demo1234 or doctor@demo.com / demo1234', '');
+  updateStats();
+})();
+</script>
+</body>
+</html>
